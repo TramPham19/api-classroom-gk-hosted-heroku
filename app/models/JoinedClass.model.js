@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const ClassroomModel = require('./Classroom.model');
-const UserModel = require('./user.model')
+const UserModel = require('./user.model.js')
 const Schema = mongoose.Schema;
 
 
