@@ -111,6 +111,8 @@ exports.inviteTeacher = (req, res) => {
     // Validate request
     User.find({ email: req.body.email })
         .then(user => {
+            console.log("user");
+            console.log(user);
             if (!user) {
                 return res.status(404).send({
                     message: "User not found with email " + req.body.email
@@ -119,7 +121,9 @@ exports.inviteTeacher = (req, res) => {
             else {
                 JoinedClass.find({ idClass: req.params.id, idUser: user[0]._id })
                     .then(data => {
-                        if (data) {
+                        console.log("data");
+                        console.log(data);
+                        if (data.length!==0) {
                             return res.status(404).send({
                                 message: "User in class: " + data
                             });
@@ -157,7 +161,9 @@ exports.inviteStudent = (req, res) => {
             else {
                 JoinedClass.find({ idClass: req.params.id, idUser: user[0]._id })
                     .then(data => {
-                        if (data) {
+                        console.log("data");
+                        console.log(data);
+                        if (data.length!==0) {
                             return res.status(404).send({
                                 message: "User in class: " + data
                             });
