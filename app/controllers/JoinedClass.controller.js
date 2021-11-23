@@ -113,23 +113,35 @@ exports.inviteTeacher = (req, res) => {
         .then(user => {
             if (!user) {
                 return res.status(404).send({
-                    message: "User not found with email " + req.params.email
+                    message: "User not found with email " + req.body.email
                 });
             }
-            const joinedNew = new JoinedClass({
-                idClass: req.params.id,
-                idUser: user[0]._id,
-                type: true, //type true: teacher
-                hide: false
-            });
-            joinedNew.save()
-                .then(data => {
-                    res.send(data);
-                }).catch(err => {
-                    res.status(500).send({
-                        message: err.message || "Some error occurred while creating the Classroom."
-                    });
-                });
+            else {
+                JoinedClass.find({ idClass: req.params.id, idUser: user[0]._id })
+                    .then(data => {
+                        if (data) {
+                            return res.status(404).send({
+                                message: "User in class: " + data
+                            });
+                        }
+                        else {
+                            const joinedNew = new JoinedClass({
+                                idClass: req.params.id,
+                                idUser: user[0]._id,
+                                type: true, //type true: teacher
+                                hide: false
+                            });
+                            joinedNew.save()
+                                .then(data => {
+                                    res.send(data);
+                                }).catch(err => {
+                                    res.status(500).send({
+                                        message: err.message || "Some error occurred while creating the Classroom."
+                                    });
+                                });
+                        }
+                    })
+            }
         })
 };
 
@@ -142,19 +154,31 @@ exports.inviteStudent = (req, res) => {
                     message: "User not found with email " + req.params.email
                 });
             }
-            const joinedNew = new JoinedClass({
-                idClass: req.params.id,
-                idUser: user[0]._id,
-                type: false, //type false stu
-                hide: false
-            });
-            joinedNew.save()
-                .then(data => {
-                    res.send(data);
-                }).catch(err => {
-                    res.status(500).send({
-                        message: err.message || "Some error occurred while creating the Classroom."
-                    });
-                });
+            else {
+                JoinedClass.find({ idClass: req.params.id, idUser: user[0]._id })
+                    .then(data => {
+                        if (data) {
+                            return res.status(404).send({
+                                message: "User in class: " + data
+                            });
+                        }
+                        else {
+                            const joinedNew = new JoinedClass({
+                                idClass: req.params.id,
+                                idUser: user[0]._id,
+                                type: false, //type false stu
+                                hide: false
+                            });
+                            joinedNew.save()
+                                .then(data => {
+                                    res.send(data);
+                                }).catch(err => {
+                                    res.status(500).send({
+                                        message: err.message || "Some error occurred while creating the Classroom."
+                                    });
+                                });
+                        }
+                    })
+            }
         })
 };
