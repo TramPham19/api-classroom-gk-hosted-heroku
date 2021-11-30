@@ -1,6 +1,57 @@
 const GradeConstructor = require('../models/GradeConstructor.model.js');
 
 // Create 
+// exports.createAll = (reqq, res) => {
+//     // Validate request
+//     reqq.forEach(req => {
+//         if (!req.body.name) {
+//             return res.status(400).send({
+//                 message: "Name content can not be empty"
+//             });
+//         }
+//         if (!req.body.percentage) {
+//             return res.status(400).send({
+//                 message: "percentage content can not be empty"
+//             });
+//         }
+//         if (!req.body.idClass) {
+//             return res.status(400).send({
+//                 message: "idClass content can not be empty"
+//             });
+//         }
+    
+//         // Create
+//         const gradeConstructor = new GradeConstructor({
+//             idClass: req.body.idClass,
+//             name: req.body.name,
+//             percentage: req.body.percentage
+//         });
+    
+//         // Kiem tra phan Tram 
+//         GradeConstructor.find({ idClass: req.body.idClass })
+//             .then(data => {
+//                 let tong = 0;
+//                 for (let i = 0; i < data.length; i++) {
+//                     tong = tong + data[i].percentage;
+//                 }
+//                 if (tong < 10) {
+//                     console.log(tong)
+//                     //Save
+//                     gradeConstructor.save()
+//                         .then(data => {
+//                             res.send(data);
+//                         }).catch(err => {
+//                             res.status(500).send({
+//                                 message: err.message || "Some error occurred while creating the Constructor."
+//                             });
+//                         });
+//                 } else {
+//                     res.send("Vuot qua 10");
+//                 }
+//             })
+//     });
+    
+// };
 exports.create = (req, res) => {
     // Validate request
     if (!req.body.name) {
@@ -168,6 +219,32 @@ exports.update = (req, res) => {
 // Delete a Classroom with the specified id in the request
 exports.delete = (req, res) => {
     GradeConstructor.findByIdAndRemove(req.params.id)
+        .then(data => {
+            if (!data) {
+                return res.status(404).send({
+                    success: false,
+                    message: "Classroom not found with id " + req.params.id
+                });
+            }
+            res.send({
+                success: true,
+                message: "deleted successfully!"
+            });
+        }).catch(err => {
+            if (err.kind === 'ObjectId' || err.name === 'NotFound') {
+                return res.status(404).send({
+                    success: false,
+                    message: "Classroom not found with id " + req.params.id
+                });
+            }
+            return res.status(500).send({
+                success: false,
+                message: "Could not delete Classroom with id " + req.params.id
+            });
+        });
+};
+exports.deleteAll = (req, res) => {
+    GradeConstructor.remove( {idClass: req.params.id } )
         .then(data => {
             if (!data) {
                 return res.status(404).send({

@@ -3,6 +3,7 @@ module.exports = (app) => {
 
     // Create a new Note
     app.post('/gradeConstructor', gradeConstructor.create);
+    //app.post('/gradeConstructor/addAll', gradeConstructor.createAll);
 
     // // Retrieve all classroom
     // app.get('/gradeConstructor', gradeConstructor.findAll);
@@ -16,5 +17,6 @@ module.exports = (app) => {
 
     // Delete gradeConstructor by id
     app.delete('/gradeConstructor/:id', gradeConstructor.delete);
+    app.delete('/gradeConstructor/:id/deleteAll', gradeConstructor.deleteAll);
 
 }
