@@ -89,14 +89,17 @@ exports.create = (req, res) => {
                 //Save
                 gradeConstructor.save()
                     .then(data => {
-                        res.send(data);
+                        res.send({
+                            success:true,
+                            data});
                     }).catch(err => {
                         res.status(500).send({
+                            success:false,
                             message: err.message || "Some error occurred while creating the Constructor."
                         });
                     });
             } else {
-                res.send("Vuot qua 10");
+                res.send({success:false,message:"Vuot qua 10"});
             }
         })
 };
@@ -184,7 +187,9 @@ exports.update = (req, res) => {
                                         message: "Classroom not found with id " + req.params.id
                                     });
                                 }
-                                res.send(data);
+                                res.send({
+                                    success: true,
+                                    data});
                             }).catch(err => {
                                 if (err.kind === 'ObjectId') {
                                     return res.status(404).send({
