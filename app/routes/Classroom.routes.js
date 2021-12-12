@@ -1,11 +1,15 @@
+
 module.exports = (app) => {
     const classroom = require('../controllers/Classroom.controller.js');
-
+    const verifyToken = require('../middleware/auth')
     // Create a new Note
-    app.post('/classroom', classroom.create);
+    app.post('/classroom', verifyToken, classroom.create);
 
     // Retrieve all classroom
-    app.get('/classroom', classroom.findAll);
+    //app.get('/classroom', classroom.findAll);
+
+    // Retrieve all classroom create by user in verifyToken
+    app.get('/classroom', verifyToken, classroom.find);
 
     //Find class room user create
     app.get('/classroom/:email', classroom.findcreate);

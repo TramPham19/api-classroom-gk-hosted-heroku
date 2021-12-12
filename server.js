@@ -3,6 +3,9 @@ const bodyParser = require('body-parser');
 const cors = require('cors')
 const dotenv = require('dotenv');
 const path = require('path');
+
+const userRouter = require('./app/routes/user.routes.js')
+
 const { OAuth2Client } = require('google-auth-library');
 // create express app
 const app = express();
@@ -22,21 +25,22 @@ mongoose.Promise = global.Promise;
 
 // Connecting to the database
 mongoose.connect(dbConfig.url, {
-	useNewUrlParser: true
+  useNewUrlParser: true
 }).then(() => {
-    console.log("Successfully connected to the database");    
+  console.log("Successfully connected to the database");
 }).catch(err => {
-    console.log('Could not connect to the database. Exiting now...', err);
-    process.exit();
+  console.log('Could not connect to the database. Exiting now...', err);
+  process.exit();
 });
 
 // define a simple route
 app.get('/', (req, res) => {
-    res.json({"message": "Welcome to application."});
+  res.json({ "message": "Welcome to application." });
 });
 
+app.use('/user', userRouter)
+
 require('./app/routes/Classroom.routes.js')(app);
-require('./app/routes/user.routes.js')(app);
 require('./app/routes/JoinedClass.routes')(app);
 require('./app/routes/SendMail.routes')(app);
 //==========================
@@ -60,10 +64,12 @@ app.post('/api/google-login', async (req, res) => {
     idToken: token,
     audience: process.env.CLIENT_ID,
   });
-  const { name, email, picture } = ticket.getPayload();
-  upsert(users, { name, email, picture });
+  const { username, email, picture } = ticket.getPayload();
+  upsert(users, { username, email, picture });
+
+  console.log("username + email + picture")
   res.status(201);
-  res.json({ name, email, picture });
+  res.json({ username, email, picture });
 });
 
 app.use(express.static(path.join(__dirname, '/build')));
@@ -75,6 +81,6 @@ const port = process.env.PORT || 5000
 
 // listen for requests
 app.listen(port, () => {
-    console.log("Server is listening on port "+ port);
+  console.log("Server is listening on port " + port);
 });
 

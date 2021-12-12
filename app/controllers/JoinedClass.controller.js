@@ -35,6 +35,7 @@ exports.findAllbyClassIdCoopTeach = (req, res) => {
 };
 
 exports.findClassJoinByMail = (req, res) => {
+    console.log("findClassJoinByMailx")
     User.find({ email: req.params.email })
         .then(user => {
             if (!user) {
@@ -42,16 +43,20 @@ exports.findClassJoinByMail = (req, res) => {
                     message: "User not found with email " + req.params.email
                 });
             }
+            console.log(user[0]._id)
             JoinedClass.find({
                 idUser: user[0]._id
             })
                 .populate("idClass")
                 //.populate("idUser")
                 .then(joinedClass => {
+                    console.log(joinedClass)
                     let x = [];
                     for (var i = 0; i < joinedClass.length; i++) {
                         x.push(joinedClass[i].idClass);
                     }
+                    console.log(x)
+                    
                     res.send(x);
                 }).catch(err => {
                     res.status(500).send({

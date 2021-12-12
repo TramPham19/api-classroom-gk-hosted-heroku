@@ -1,41 +1,60 @@
-module.exports = (app) => {
-    const user = require('../controllers/user.controller.js');
+const express = require('express');
+const router = express.Router();
 
-    // Create a new User
-    app.post('/user', user.create);
+const user = require('../controllers/user.controller.js');
+const verifyToken = require('../middleware/auth')
+const User = require('../models/user.model')
 
-    // login
-    app.post('/user/login', user.login);
+// Create a new User
+router.post('/', user.create);
 
-    // login by google
-    app.post('/user/loginGoogle', user.loginGoogle);
+// @route GET api/auth
+// @desc Check if user is logged in
+// @access Public
+router.get('/auth', verifyToken, async (req, res) => {
+	try {
+		const user = await User.find({email:req.email}).select('-password')
+		if (!user)
+			return res.status(400).json({ success: false, message: 'User not found' })
+		res.json({ success: true, user })
+	} catch (error) {
+		console.log(error)
+		res.status(500).json({ success: false, message: 'Internal server error' })
+	}
+})
 
-    // Retrieve all user
-    app.get('/user', user.findAll);
+// login
+router.post('/login', user.login);
 
-    // Retrieve a single User with UserId
-    app.get('/user/:id', user.findOne);
+// login by google
+router.post('/loginGoogle', user.loginGoogle);
 
-    // Retrieve a single User with UserId
-    app.get('/user/findEmail/:email', user.findOneEmail);
+// Retrieve all user
+router.get('/', user.findAll);
 
-    // Update a User with UserId
-    app.put('/user/:id', user.update);
+// Retrieve a single User with UserId
+router.get('/:id', user.findOne);
 
-    // Update username with User mail
-    app.put('/user/updateUsername/:email', user.updateUsername);
+// Retrieve a single User with UserId
+router.get('/findEmail/:email', user.findOneEmail);
 
-    // Update pass with User mail
-    app.post('/user/updatePasswordCheck/:email', user.updatePasswordCheck);
-    app.put('/user/updatePassword/:email', user.updatePassword);
+// Update a User with UserId
+router.put('/:id', user.update);
 
-    // Delete a User with UserId
-    app.delete('/user/:id', user.delete);
+// Update username with User mail
+router.put('/updateUsername/:email', user.updateUsername);
 
-    //mapping id student
-    app.put('/user/studentId/:id', user.updateStudentId)
+// Update pass with User mail
+router.post('/updatePasswordCheck/:email', user.updatePasswordCheck);
+router.put('/updatePassword/:email', user.updatePassword);
 
-    //mapping id student when know email
-    app.put('/user/studentId/email/:email', user.updateStudentIdByEmail)
+// Delete a User with UserId
+router.delete('/:id', user.delete);
 
-}
+//mapping id student
+router.put('/studentId/:id', user.updateStudentId)
+
+//mapping id student when know email
+router.put('/studentId/email/:email', user.updateStudentIdByEmail)
+
+module.exports = router

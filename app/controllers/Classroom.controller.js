@@ -30,7 +30,8 @@ exports.create = (req, res) => {
         section:req.body.section,
         subject: req.body.subject,
         room: req.body.room,
-        owner: req.body.owner
+        //owner: req.body.owner
+        owner: req.email
     });
 
     // Save Classroom in the database
@@ -47,6 +48,17 @@ exports.create = (req, res) => {
 // Retrieve and return all Classroom from the database.
 exports.findAll = (req, res) => {
     Classroom.find()
+    .then(classroom => {
+        res.send(classroom);
+    }).catch(err => {
+        res.status(500).send({
+            message: err.message || "Some error occurred while retrieving Classroom."
+        });
+    });
+};
+
+exports.find = (req, res) => {
+    Classroom.find({owner: req.email})
     .then(classroom => {
         res.send(classroom);
     }).catch(err => {
