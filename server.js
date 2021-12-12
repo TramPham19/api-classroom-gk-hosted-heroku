@@ -43,6 +43,7 @@ app.use('/user', userRouter)
 require('./app/routes/Classroom.routes.js')(app);
 require('./app/routes/JoinedClass.routes')(app);
 require('./app/routes/SendMail.routes')(app);
+require('./app/routes/GradeConstructor.routes')(app);
 //==========================
 
 dotenv.config();
