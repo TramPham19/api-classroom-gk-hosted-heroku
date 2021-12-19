@@ -70,9 +70,9 @@ exports.create = (req, res) => {
             message: "Grade content can not be empty"
         });
     }
-    if (!req.body.idUser) {
+    if (!req.body.StudentId) {
         return res.status(400).send({
-            message: "idUser content can not be empty"
+            message: "StudentId content can not be empty"
         });
     }
     if (!req.body.idGrade) {
@@ -84,7 +84,7 @@ exports.create = (req, res) => {
     // Create
     const gradeStudent = new GradeStudent({
         idGrade: req.body.idGrade,
-        idUser: req.body.idUser,
+        StudentId: req.body.StudentId,
         numberGrade: req.body.numberGrade
     });
 
@@ -99,27 +99,27 @@ exports.create = (req, res) => {
 
 };
 
-// // Find gradeConstructor of idClass
-// exports.findByClass = (req, res) => {
-//     GradeConstructor.find({ idClass: req.params.idClass })
-//         .then(data => {
-//             if (!data) {
-//                 return res.status(404).send({
-//                     message: "Classroom not create gradeConstructor " + req.params.idClass
-//                 });
-//             }
-//             res.send(data);
-//         }).catch(err => {
-//             if (err.kind === 'ObjectId') {
-//                 return res.status(404).send({
-//                     message: "Classroom not found with id " + req.params.id
-//                 });
-//             }
-//             return res.status(500).send({
-//                 message: "Error retrieving Classroom with id " + req.params.id
-//             });
-//         });
-// };
+// Find gradeConstructor of idClass
+exports.findByGrade = (req, res) => {
+    GradeStudent.find({ idGrade: req.params.idGrade })
+        .then(data => {
+            if (!data) {
+                return res.status(404).send({
+                    message: "Grade not exist " + req.params.idGrade
+                });
+            }
+            res.send(data);
+        }).catch(err => {
+            if (err.kind === 'ObjectId') {
+                return res.status(404).send({
+                    message: "Grade not found with id " + req.params.id
+                });
+            }
+            return res.status(500).send({
+                message: "Error retrieving Graderoom with id " + req.params.id
+            });
+        });
+};
 
 // exports.total = (req, res) => {
 //     GradeConstructor.find({ idClass: req.params.idClass })

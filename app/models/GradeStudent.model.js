@@ -6,7 +6,7 @@ const Schema = mongoose.Schema;
 
 const GradeStudentSchema = new Schema({
     idGrade:{type:Schema.Types.ObjectId, ref: GradeConstructorModel},
-    idUser:{type:Schema.Types.ObjectId, ref: UserModel},
+    StudentId: String,
     numberGrade: Number
 
 },{
