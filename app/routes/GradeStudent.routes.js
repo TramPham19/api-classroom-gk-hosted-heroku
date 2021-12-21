@@ -10,16 +10,18 @@ module.exports = (app) => {
 
     // // Find gradeStudent of idClass
     app.get('/gradeStudent/:idGrade', gradeStudent.findByGrade);
+
+    app.get('/gradeStudent/findGrade/find', gradeStudent.findByGradeAndStudent);
     // app.get('/gradeStudent/:idClass/total', gradeStudent.total);
 
-    // Update gradeStudent by id
-    //app.put('/gradeStudent/:id', gradeStudent.update);
+    // // Update gradeStudent by Id
+    app.put('/gradeStudent/:id', gradeStudent.update);
 
-    // Update gradeStudent public 
-    //app.put('/gradeStudent/:id', gradeStudent.updateReturnAll);
+    // // Update gradeStudent by idGrade & StudentId
+    app.put('/gradeStudent/updateGrade/find', gradeStudent.updateGrade);
 
     // // Delete gradeStudent by id
-    // app.delete('/gradeStudent/:id', gradeStudent.delete);
+    app.delete('/gradeStudent/:id', gradeStudent.delete);
     // app.delete('/gradeStudent/:id/deleteAll', gradeStudent.deleteAll);
 
 }
