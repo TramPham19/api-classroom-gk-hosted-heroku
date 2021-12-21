@@ -1,0 +1,68 @@
+POST  http://localhost:5000/user
+Content-Type: application/json
+
+{
+    "username": "Henry11111111" , 
+    "email": "henry11111112@gmail.com",
+    "password": "test1",
+    "status": "true"
+}
+
+###
+
+GET  http://localhost:5000/user
+
+###
+
+POST http://localhost:5000/user/login
+Content-Type: application/json
+
+{
+    "email": "phanhan226@gmail.com",
+    "password": "1"
+}
+
+###
+
+POST http://localhost:5000/classroom
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxYTI4NTZjYjAyZTcwMDRiNDZiN2RlMSIsInVzZXJuYW1lIjoiSGVucnkxIiwiZW1haWwiOiJoZW5yeTFAZ21haWwuY29tIiwicGFzc3dvcmQiOiI5YTcyMWNhYjdiNGE2Y2JkNmI5MWU2NTJkODY4MjhkZDZhMzZmOTQ0M2Y4ZmQwMGRjZmYwMGRkZDI0NGFlZWY4YTUwMmNhZTliMDYyMWYyZjExYTVjMzFjN2Q5ZDdiMDA4OGZkYTZlNWE3OWY5MjRjODU2YWE0MzAxMWIzYTQyMCIsImlhdCI6MTYzODA0MDk0MH0.RYfM8C_RLb85082qmPbsHzBm747GQKsh4CJxyShRwu8
+
+{
+    "classname":  "Lop Henry 121",
+    "section": "Test",
+    "subject": "Test",
+    "room": "18A1"
+}
+
+###
+
+GET http://localhost:5000/user/auth
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxYjNiZTVkZWI4NzQzMjc3ODhlMmJiNyIsInVzZXJuYW1lIjoiSGVucnkxMTExMTExMSIsImVtYWlsIjoiaGVucnkxMTExMTExQGdtYWlsLmNvbSIsImlhdCI6MTYzOTE2OTYzMH0.z72BOgn1exWZ8NdxTYEywripdF5aE9cbML3TG3eyajo
+###
+
+GET http://localhost:5000/user/auth
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxYjNiZTVkZWI4NzQzMjc3ODhlMmJiNyIsInVzZXJuYW1lIjoiSGVucnkxMTExMTExMSIsImVtYWlsIjoiaGVucnkxMTExMTExQGdtYWlsLmNvbSIsInBhc3N3b3JkIjoiNTAzNDQ4OWViMmU2OTI1MDZjMzAyN2MxNGFmZjczYWMyYjUxZDM2MDk2Zjc4NGZhOTk3MjNlMDhjZjYyZWQ3OGQzNDEzOTBlM2U0Yjk4Njk5M2FlYjFiOWJhNTgxZjAyMzUwZTJjY2FlNjhmZjBkMDUwZmE2NWNhN2E1MTlkMzgiLCJpYXQiOjE2MzkxNjk2MzB9.n6Y5BVskRT1AnDRQTV-Z8szQgRbr02o8Zr1VunFRAPE
+
+###
+
+GET http://localhost:5000/classroom/phanhan226@gmail.com/joined
+Content-Type: application/json
+//Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxOWNmYzA5NTExZGMwMDlhY2NiOWVhNSIsInVzZXJuYW1lIjoiaGFucGhhbiIsImVtYWlsIjoicGhhbmhhbjIyNkBnbWFpbC5jb20iLCJwYXNzd29yZCI6IjlmMWE3YzgzYmE5ZGI4ZjE2MTNlNmU5ZTYyYzc5MTk2OTFkMTViZjQxYjcwNDI1YWUyNmI5ODM2NGJjYzZjZGM2YzVlZTA2OWRkNzc1OTJiYmMwZDljYTA0MjBkMzZiODg0YTA4YzNmYTkzMTBmN2E5ZmMyMjFjZjAwMjVmMmQzIiwicGljdHVyZSI6Imh0dHBzOi8vbGgzLmdvb2dsZXVzZXJjb250ZW50LmNvbS9hLS9BT2gxNEdnX0RnUmh2R3NMNV9JcGI1ZkVMbW9PbXJNQmp0bGJ6ZFVYNWczVGQ5ND1zOTYtYyIsImlhdCI6MTYzOTMwNDU4OX0.h14TjrxTwVFRyRAptt641FwEE_ag2YhTsVzO9Bh9Brk
+
+###
+
+PUT http://localhost:5000/gradeConstructor/61a757cce736480004b91b28/returnOne
+Content-Type: application/json
+
+###
+
+PUT http://localhost:5000/gradeConstructor/61b19a349b7acf416c7872e2/returnAll
+Content-Type: application/json
+
+
+
+
+

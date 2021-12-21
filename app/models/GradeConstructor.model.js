@@ -6,7 +6,8 @@ const Schema = mongoose.Schema;
 const GradeConstructorSchema = new Schema({
     idClass: { type: Schema.Types.ObjectId, ref: ClassroomModel },
     name: String,
-    percentage: { type: Schema.Types.Number }
+    percentage: { type: Schema.Types.Number },
+    returnData: Boolean
 }, {
     collection: 'gradeConstructor'
 });
