@@ -12,8 +12,11 @@ module.exports = (app) => {
     app.get('/gradeStudent/:idGrade', gradeStudent.findByGrade);
     // app.get('/gradeStudent/:idClass/total', gradeStudent.total);
 
-    // // Update gradeStudent by id
-    // app.put('/gradeStudent/:id', gradeStudent.update);
+    // Update gradeStudent by id
+    //app.put('/gradeStudent/:id', gradeStudent.update);
+
+    // Update gradeStudent public 
+    //app.put('/gradeStudent/:id', gradeStudent.updateReturnAll);
 
     // // Delete gradeStudent by id
     // app.delete('/gradeStudent/:id', gradeStudent.delete);

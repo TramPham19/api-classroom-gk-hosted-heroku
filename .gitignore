@@ -1,2 +1,9 @@
 node_modules/
-request.http
+request.http/
+package-lock.json/
+
+# misc
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local

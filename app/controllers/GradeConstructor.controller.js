@@ -19,14 +19,14 @@ const GradeConstructor = require('../models/GradeConstructor.model.js');
 //                 message: "idClass content can not be empty"
 //             });
 //         }
-    
+
 //         // Create
 //         const gradeConstructor = new GradeConstructor({
 //             idClass: req.body.idClass,
 //             name: req.body.name,
 //             percentage: req.body.percentage
 //         });
-    
+
 //         // Kiem tra phan Tram 
 //         GradeConstructor.find({ idClass: req.body.idClass })
 //             .then(data => {
@@ -50,7 +50,7 @@ const GradeConstructor = require('../models/GradeConstructor.model.js');
 //                 }
 //             })
 //     });
-    
+
 // };
 exports.create = (req, res) => {
     // Validate request
@@ -74,7 +74,8 @@ exports.create = (req, res) => {
     const gradeConstructor = new GradeConstructor({
         idClass: req.body.idClass,
         name: req.body.name,
-        percentage: req.body.percentage
+        percentage: req.body.percentage,
+        returnData: false
     });
 
     // Kiem tra phan Tram 
@@ -90,16 +91,17 @@ exports.create = (req, res) => {
                 gradeConstructor.save()
                     .then(data => {
                         res.send({
-                            success:true,
-                            data});
+                            success: true,
+                            data
+                        });
                     }).catch(err => {
                         res.status(500).send({
-                            success:false,
+                            success: false,
                             message: err.message || "Some error occurred while creating the Constructor."
                         });
                     });
             } else {
-                res.send({success:false,message:"Vuot qua 10"});
+                res.send({ success: false, message: "Vuot qua 10" });
             }
         })
 };
@@ -210,7 +212,8 @@ exports.update = (req, res) => {
                                 }
                                 res.send({
                                     success: true,
-                                    data});
+                                    data
+                                });
                             }).catch(err => {
                                 if (err.kind === 'ObjectId') {
                                     return res.status(404).send({
@@ -241,6 +244,61 @@ exports.update = (req, res) => {
     // Find Classroom and update it with the request body
 
 };
+// Update a GradeConstructor identified by the id in the request
+exports.updateReturnColumn = (req, res) => {
+    // if (!req.body.gradeIdCons) {
+    //     return res.status(400).send({
+    //         success: false,
+    //         message: "Id null"
+    //     });
+    // }
+    GradeConstructor.findByIdAndUpdate(req.params.id, {
+        returnData: true
+    }, { new: true })
+        .then(data => {
+            if (!data) {
+                return res.status(404).send({
+                    message: "Classroom not found with id " + req.params.id
+                });
+            }
+            res.send({
+                success: true,
+                data
+            });
+        }).catch(err => {
+            return res.status(500).send({
+                success: false,
+                message: "upload fail"
+            });
+        });
+};
+// Update a Classroom identified by the id in the request
+exports.updateReturnAll = (req, res) => {
+    // if (!req.body.idClass) {
+    //     return res.status(400).send({
+    //         success: false,
+    //         message: "Id null"
+    //     });
+    // }
+
+    GradeConstructor.updateMany({ "idClass": req.params.idClass }, { "$set": { "returnData": true } })
+        .then(data => {
+            if (!data) {
+                return res.status(404).send({
+                    message: "Classroom not found with id " + req.params.id
+                });
+            }
+            res.send({
+                success: true,
+                data
+            });
+        }).catch(err => {
+            return res.status(500).send({
+                success: false,
+                message: "upload fail"
+            });
+        });
+};
 
 // Delete a Classroom with the specified id in the request
 exports.delete = (req, res) => {
@@ -270,7 +328,7 @@ exports.delete = (req, res) => {
         });
 };
 exports.deleteAll = (req, res) => {
-    GradeConstructor.remove( {idClass: req.params.id } )
+    GradeConstructor.remove({ idClass: req.params.id })
         .then(data => {
             if (!data) {
                 return res.status(404).send({

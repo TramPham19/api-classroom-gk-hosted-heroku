@@ -69,3 +69,75 @@ exports.findByGrade = (req, res) => {
             });
         });
 };
+
+// Update a Classroom identified by the id in the request
+exports.updateReturnAll = (req, res) => {
+    if (!req.body.name) {
+        return res.status(400).send({
+            message: "Name content can not be empty"
+        });
+    }
+    if (!req.body.percentage) {
+        return res.status(400).send({
+            message: "percentage content can not be empty"
+        });
+    }
+    //Kiem tra
+    GradeConstructor.findById(req.params.id)
+        .then(data => {
+            //console.log(data)
+            GradeConstructor.find({ idClass: data.idClass })
+                .then(data => {
+                    console.log(data)
+                    let tong = 0;
+                    for (let i = 0; i < data.length; i++) {
+                        if (data[i]._id != req.params.id) {
+                            tong = tong + data[i].percentage;
+                        }
+                    }
+                    tong = tong + Number(req.body.percentage)
+                    console.log(tong)
+
+                    if (tong <= 10) {
+                        GradeConstructor.findByIdAndUpdate(req.params.id, {
+                            name: req.body.name,
+                            percentage: req.body.percentage
+                        }, { new: true })
+                            .then(data => {
+                                if (!data) {
+                                    return res.status(404).send({
+                                        message: "Classroom not found with id " + req.params.id
+                                    });
+                                }
+                                res.send({
+                                    success: true,
+                                    data});
+                            }).catch(err => {
+                                if (err.kind === 'ObjectId') {
+                                    return res.status(404).send({
+                                        message: "Classroom not found with id " + req.params.id
+                                    });
+                                }
+                                return res.status(500).send({
+                                    message: "Error updating Classroom with id " + req.params.id
+                                });
+                            });
+                    }
+                    else {
+                        res.send({
+                            success: false,
+                            message: "vuot qua 10"
+                        });
+                    }
+                }).catch(err => {
+                    res.status(500).send({
+                        message: err.message || "Some error occurred..."
+                    });
+                });
+        }).catch(err => {
+            res.status(500).send({
+                message: err.message || "Some error occurred..."
+            });
+        });
+    // Find Classroom and update it with the request body
+};
