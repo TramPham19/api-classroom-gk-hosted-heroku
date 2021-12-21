@@ -9,6 +9,7 @@ module.exports = (app) => {
     // app.get('/gradeConstructor', gradeConstructor.findAll);
 
     // // Find gradeConstructor of idClass
+    app.get('/gradeConstructor/byId/:id', gradeConstructor.findById);
     app.get('/gradeConstructor/:idClass', gradeConstructor.findByClass);
     app.get('/gradeConstructor/:idClass/total', gradeConstructor.total);
     app.get('/gradeConstructor/find/:name', gradeConstructor.findByName);

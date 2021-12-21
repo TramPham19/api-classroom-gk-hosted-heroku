@@ -1,4 +1,5 @@
 const GradeStudent = require('../models/GradeStudent.model');
+const GradeConstructor = require('../models/GradeConstructor.model.js');
 
 exports.findAll = (req, res) => {
     GradeStudent.find()
@@ -74,6 +75,67 @@ exports.findByGradeAndStudent = (req, res) => {
     GradeStudent.findOne({
         idGrade: req.body.idGrade,
         StudentId: req.body.StudentId})
+        .then(data => {
+            if (!data) {
+                return res.status(404).send({
+                    message: "Grade not exist " + req.body.idGrade
+                });
+            }
+            res.send(data);
+        }).catch(err => {
+            if (err.kind === 'ObjectId') {
+                return res.status(404).send({
+                    message: "Grade not found with id " + req.body.idGrade
+                });
+            }
+            return res.status(500).send({
+                message: "Error retrieving Graderoom with id " + req.body.idGrade
+            });
+        });
+};
+
+// exports.findByStudent = (req, res) => {
+//     GradeStudent.find({StudentId: req.params.StudentId})
+//         .then(data => {
+//             let totalGrades = 0;
+//             if (!data) {
+//                 return res.status(404).send({
+//                     message: "Grade not exist " + req.body.idGrade
+//                 });
+//             }
+
+//             for(let i=0 ; i<data.length ; i++){
+//                 GradeConstructor.findById(data[i].idGrade )
+//                 .then(total=>{
+//                     if (!total) {
+//                         return res.status(404).send({
+//                             message: "Grade not exist "
+//                         });
+//                     }
+//                     totalGrades += data[i].numberGrade*total.percentage;
+//                     res.
+//             console.log(totalGrades)
+//                 })
+//             }
+//             console.log(totalGrades)
+//             res.send({
+//                 success: true,
+//                 totalGrades});
+//         }).catch(err => {
+//             if (err.kind === 'ObjectId') {
+//                 return res.status(404).send({
+//                     message: "Grade not found with id " + req.body.idGrade
+//                 });
+//             }
+//             return res.status(500).send({
+//                 message: "Error retrieving Graderoom with id " + req.body.idGrade
+//             });
+//         });
+
+// };
+
+exports.findByStudent = (req, res) => {
+    GradeStudent.find({StudentId: req.params.StudentId})
         .then(data => {
             if (!data) {
                 return res.status(404).send({

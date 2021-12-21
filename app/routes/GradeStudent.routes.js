@@ -12,6 +12,9 @@ module.exports = (app) => {
     app.get('/gradeStudent/:idGrade', gradeStudent.findByGrade);
 
     app.get('/gradeStudent/findGrade/find', gradeStudent.findByGradeAndStudent);
+
+    app.get('/gradeStudent/findGrade/byStudentId/:StudentId', gradeStudent.findByStudent);
+
     // app.get('/gradeStudent/:idClass/total', gradeStudent.total);
 
     // // Update gradeStudent by Id

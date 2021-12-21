@@ -126,6 +126,27 @@ exports.findByClass = (req, res) => {
         });
 };
 
+exports.findById = (req, res) => {
+    GradeConstructor.findById(req.params.id )
+        .then(data => {
+            if (!data) {
+                return res.status(404).send({
+                    message: "Grade not create gradeConstructor " + req.params.id
+                });
+            }
+            res.send(data);
+        }).catch(err => {
+            if (err.kind === 'ObjectId') {
+                return res.status(404).send({
+                    message: "Grade not found with id " + req.params.id
+                });
+            }
+            return res.status(500).send({
+                message: "Error retrieving Grade with id " + req.params.id
+            });
+        });
+};
+
 exports.findByName = (req, res) => {
     GradeConstructor.find({ name: req.params.name })
         .then(data => {
