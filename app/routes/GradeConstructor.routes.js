@@ -19,6 +19,9 @@ module.exports = (app) => {
     // Update return data 
     app.put('/gradeConstructor/:id/returnOne', gradeConstructor.updateReturnColumn);
     app.put('/gradeConstructor/:idClass/returnAll', gradeConstructor.updateReturnAll);
+    // Update un return data 
+    app.put('/gradeConstructor/:id/unreturnOne', gradeConstructor.updateUnReturnColumn);
+    app.put('/gradeConstructor/:idClass/unreturnAll', gradeConstructor.updateUnReturnAll);
 
     // Delete gradeConstructor by id
     app.delete('/gradeConstructor/:id', gradeConstructor.delete);

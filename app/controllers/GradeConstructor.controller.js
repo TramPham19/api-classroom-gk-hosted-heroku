@@ -274,6 +274,49 @@ exports.updateReturnColumn = (req, res) => {
 };
 // Update a Classroom identified by the id in the request
 exports.updateReturnAll = (req, res) => {
+    GradeConstructor.updateMany({ "idClass": req.params.idClass }, { "$set": { "returnData": true } })
+        .then(data => {
+            if (!data) {
+                return res.status(404).send({
+                    message: "Classroom not found with id " + req.params.id
+                });
+            }
+            res.send({
+                success: true,
+                data
+            });
+        }).catch(err => {
+            return res.status(500).send({
+                success: false,
+                message: "upload fail"
+            });
+        });
+};
+
+// Update a GradeConstructor identified by the id in the request
+exports.updateUnReturnColumn = (req, res) => {
+    GradeConstructor.findByIdAndUpdate(req.params.id, {
+        returnData: false
+    }, { new: true })
+        .then(data => {
+            if (!data) {
+                return res.status(404).send({
+                    message: "Classroom not found with id " + req.params.id
+                });
+            }
+            res.send({
+                success: true,
+                data
+            });
+        }).catch(err => {
+            return res.status(500).send({
+                success: false,
+                message: "upload fail"
+            });
+        });
+};
+// Update a Classroom identified by the id in the request
+exports.updateUnReturnAll = (req, res) => {
     // if (!req.body.idClass) {
     //     return res.status(400).send({
     //         success: false,
@@ -281,7 +324,7 @@ exports.updateReturnAll = (req, res) => {
     //     });
     // }
 
-    GradeConstructor.updateMany({ "idClass": req.params.idClass }, { "$set": { "returnData": true } })
+    GradeConstructor.updateMany({ "idClass": req.params.idClass }, { "$set": { "returnData": false } })
         .then(data => {
             if (!data) {
                 return res.status(404).send({
