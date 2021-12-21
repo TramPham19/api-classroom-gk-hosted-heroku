@@ -69,3 +69,107 @@ exports.findByGrade = (req, res) => {
             });
         });
 };
+
+exports.findByGradeAndStudent = (req, res) => {
+    GradeStudent.findOne({
+        idGrade: req.body.idGrade,
+        StudentId: req.body.StudentId})
+        .then(data => {
+            if (!data) {
+                return res.status(404).send({
+                    message: "Grade not exist " + req.body.idGrade
+                });
+            }
+            res.send(data);
+        }).catch(err => {
+            if (err.kind === 'ObjectId') {
+                return res.status(404).send({
+                    message: "Grade not found with id " + req.body.idGrade
+                });
+            }
+            return res.status(500).send({
+                message: "Error retrieving Graderoom with id " + req.body.idGrade
+            });
+        });
+};
+
+exports.update = (req, res) => {
+    GradeStudent.findByIdAndUpdate(req.params.id, {
+        idGrade: req.body.idGrade,
+        StudentId: req.body.StudentId,
+        numberGrade: req.body.numberGrade,
+        status: req.body.status
+    }, { new: true })
+        .then(grade => {
+            if (!grade) {
+                return res.status(404).send({
+                    message: "grade not found with id " + req.params.id
+                });
+            }
+            res.send(grade);
+        }).catch(err => {
+            if (err.kind === 'ObjectId') {
+                return res.status(404).send({
+                    message: "grade not found with id " + req.params.id
+                });
+            }
+            return res.status(500).send({
+                message: "Error updating grade with id " + req.params.id
+            });
+        });
+};
+
+exports.updateGrade = (req, res) => {
+    GradeStudent.findOneAndUpdate({
+        idGrade: req.body.idGrade,
+        StudentId: req.body.StudentId}, {
+            idGrade: req.body.idGrade,
+            StudentId: req.body.StudentId,
+            numberGrade: req.body.numberGrade,
+            status: req.body.status},
+        { new: true })
+        .then(grade => {
+            if (!grade) {
+                return res.status(404).send({
+                    message: "grade not found with id " + req.body.idGrade
+                });
+            }
+            res.send(grade);
+        }).catch(err => {
+            if (err.kind === 'ObjectId') {
+                return res.status(404).send({
+                    message: "grade not found with id " + req.body.idGrade
+                });
+            }
+            return res.status(500).send({
+                message: "Error updating grade with id " + req.body.idGrade
+            });
+        });
+};
+
+exports.delete = (req, res) => {
+    GradeStudent.findByIdAndRemove(req.params.id)
+        .then(data => {
+            if (!data) {
+                return res.status(404).send({
+                    success: false,
+                    message: "Grade not found with id " + req.params.id
+                });
+            }
+            res.send({
+                success: true,
+                message: "deleted successfully!"
+            });
+        }).catch(err => {
+            if (err.kind === 'ObjectId' || err.name === 'NotFound') {
+                return res.status(404).send({
+                    success: false,
+                    message: "Classroom not found with id " + req.params.id
+                });
+            }
+            return res.status(500).send({
+                success: false,
+                message: "Could not delete Classroom with id " + req.params.id
+            });
+        });
+};
