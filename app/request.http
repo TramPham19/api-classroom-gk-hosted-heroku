@@ -62,6 +62,27 @@ Content-Type: application/json
 PUT http://localhost:5000/gradeConstructor/61b19a349b7acf416c7872e2/returnAll
 Content-Type: application/json
 
+###
+
+GET  http://localhost:5000/gradeStudent/findGrade/find
+Content-Type: application/json
+
+{
+    "idGrade": "61b642f585478718501edcfc",
+    "StudentId": "18120026"
+}
+
+###
+
+GET  http://localhost:5000/gradeStudent/findGrade/find
+Content-Type: application/json
+
+{
+    "idGrade": "61b642f585478718501edcfc",
+    "StudentId": "18120026"
+}
+//61c2157559a4c537ec941a46
+//61c2157559a4c537ec941a41
 
 
 
