@@ -94,6 +94,29 @@ exports.findByGradeAndStudent = (req, res) => {
         });
 };
 
+exports.findByGradeAndStudentParams = (req, res) => {
+    GradeStudent.findOne({
+        idGrade: req.params.idGrade,
+        StudentId: req.params.StudentId})
+        .then(data => {
+            if (!data) {
+                return res.status(404).send({
+                    message: "Grade not exist " + req.body.idGrade
+                });
+            }
+            res.send(data);
+        }).catch(err => {
+            if (err.kind === 'ObjectId') {
+                return res.status(404).send({
+                    message: "Grade not found with id " + req.body.idGrade
+                });
+            }
+            return res.status(500).send({
+                message: "Error retrieving Graderoom with id " + req.body.idGrade
+            });
+        });
+};
+
 // exports.findByStudent = (req, res) => {
 //     GradeStudent.find({StudentId: req.params.StudentId})
 //         .then(data => {
