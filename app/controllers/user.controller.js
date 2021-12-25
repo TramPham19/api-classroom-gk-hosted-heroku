@@ -34,15 +34,16 @@ exports.create = (req, res) => {
     }
 
     //check for existing user 
-    User.findOne({ email: req.body.email })
+    User.findOne({
+            email: req.body.email
+        })
         .then(u => {
             if (u) {
                 return res.status(404).send({
                     success: false,
                     message: "User already exist with email " + req.body.email
                 });
-            }
-            else {
+            } else {
                 // Create a User
                 const user = new User({
                     username: req.body.username,
@@ -56,12 +57,12 @@ exports.create = (req, res) => {
                 user.save()
                     .then(user => {
                         const token = jwt.sign({
-                            id: user.id,
-                            username: user.username,
-                            email: user.email,
-                            password: user.password,
-                            picture: user.picture
-                        },
+                                id: user.id,
+                                username: user.username,
+                                email: user.email,
+                                password: user.password,
+                                picture: user.picture
+                            },
                             process.env.ACCESS_TOKEN_SECRET
                         )
                         res.status(200).send({
@@ -94,8 +95,8 @@ exports.login = (req, res) => {
         });
     }
     const user = User.findOne({
-        email: req.body.email,
-    })
+            email: req.body.email,
+        })
         .then(user => {
             if (user === null) {
                 return res.status(400).send({
@@ -105,12 +106,12 @@ exports.login = (req, res) => {
             } else {
                 if (user.validPassword(req.body.password)) {
                     const token = jwt.sign({
-                        id: user.id,
-                        username: user.username,
-                        email: user.email,
-                        password: user.password,
-                        picture: user.picture
-                    },
+                            id: user.id,
+                            username: user.username,
+                            email: user.email,
+                            password: user.password,
+                            picture: user.picture
+                        },
                         process.env.ACCESS_TOKEN_SECRET
                     )
                     res.status(200).send({
@@ -138,25 +139,24 @@ exports.login = (req, res) => {
 //login google
 exports.loginGoogle = (req, res) => {
     const user = User.findOne({
-        email: req.body.email
-    })
+            email: req.body.email
+        })
         .then(user => {
             if (user) {
                 const token = jwt.sign({
-                    id: user.id,
-                    username: user.username,
-                    email: user.email,
-                    password: user.password,
-                    picture: user.picture
-                },
+                        id: user.id,
+                        username: user.username,
+                        email: user.email,
+                        password: user.password,
+                        picture: user.picture
+                    },
                     process.env.ACCESS_TOKEN_SECRET
                 )
                 res.status(200).send({
                     success: true,
                     token
                 });
-            }
-            else {
+            } else {
                 // Create a User
                 const user = new User({
                     username: req.body.username,
@@ -169,13 +169,13 @@ exports.loginGoogle = (req, res) => {
                 user.save()
                     .then(user => {
                         const token = jwt.sign({
-                            id: user.id,
-                            username: user.username,
-                            email: user.email,
-                            password: user.password,
-                            picture: user.picture
-                        },
-                        process.env.ACCESS_TOKEN_SECRET
+                                id: user.id,
+                                username: user.username,
+                                email: user.email,
+                                password: user.password,
+                                picture: user.picture
+                            },
+                            process.env.ACCESS_TOKEN_SECRET
                         )
                         res.status(200).send({
                             success: true,
@@ -234,7 +234,9 @@ exports.findOne = (req, res) => {
 };
 
 exports.findOneEmail = (req, res) => {
-    User.find({ email: req.params.email })
+    User.find({
+            email: req.params.email
+        })
         .then(user => {
             if (!user) {
                 return res.status(404).send({
@@ -265,11 +267,13 @@ exports.update = (req, res) => {
 
     // Find User and update it with the request body
     User.findByIdAndUpdate(req.params.id, {
-        username: req.body.username,
-        email: req.body.email,
-        password: req.body.password,
-        status: req.body.status
-    }, { new: true })
+            username: req.body.username,
+            email: req.body.email,
+            password: req.body.password,
+            status: req.body.status
+        }, {
+            new: true
+        })
         .then(user => {
             if (!user) {
                 return res.status(404).send({
@@ -298,7 +302,9 @@ exports.delete = (req, res) => {
                     message: "User not found with id " + req.params.id
                 });
             }
-            res.send({ message: "User deleted successfully!" });
+            res.send({
+                message: "User deleted successfully!"
+            });
         }).catch(err => {
             if (err.kind === 'ObjectId' || err.name === 'NotFound') {
                 return res.status(404).send({
@@ -321,8 +327,8 @@ exports.updatePasswordCheck = (req, res) => {
     // }
 
     User.findOne({
-        email: req.params.email,
-    })
+            email: req.params.email,
+        })
         .then(user => {
             if (user === null) {
                 return res.status(400).send({
@@ -354,8 +360,8 @@ exports.updatePassword = (req, res) => {
         });
     }
     User.findOne({
-        email: req.params.email
-    })
+            email: req.params.email
+        })
         .then(user => {
             if (user === null) {
                 return res.status(400).send({
@@ -364,9 +370,11 @@ exports.updatePassword = (req, res) => {
             } else {
                 user.setPasswordWithSalt(req.body.password, user.salt)
                 User.findByIdAndUpdate(
-                    user.id, {
-                    password: user.password,
-                }, { new: true })
+                        user.id, {
+                            password: user.password,
+                        }, {
+                            new: true
+                        })
                     .then(users => {
                         console.log(users)
                         res.send(users)
@@ -391,9 +399,13 @@ exports.updateUsername = (req, res) => {
     }
 
     // Find User and update it with the request body
-    User.findOneAndUpdate({ email: req.params.email }, {
-        username: req.body.username,
-    }, { new: true })
+    User.findOneAndUpdate({
+            email: req.params.email
+        }, {
+            username: req.body.username,
+        }, {
+            new: true
+        })
         .then(user => {
             if (!user) {
                 return res.status(404).send({
@@ -422,7 +434,9 @@ exports.delete = (req, res) => {
                     message: "User not found with id " + req.params.id
                 });
             }
-            res.send({ message: "User deleted successfully!" });
+            res.send({
+                message: "User deleted successfully!"
+            });
         }).catch(err => {
             if (err.kind === 'ObjectId' || err.name === 'NotFound') {
                 return res.status(404).send({
@@ -444,22 +458,25 @@ exports.updateStudentId = (req, res) => {
     }
 
     // Find User and update it with the request body
-    User.find({ studentId: req.body.studentId })
+    User.find({
+            studentId: req.body.studentId
+        })
         .then(u => {
             if (u.length) {
                 return res.status(404).send({
                     message: "This student Id already exist " + req.body.studentId
                 });
-            }
-            else {
+            } else {
 
                 User.findByIdAndUpdate(req.params.id, {
-                    // username: req.body.username, 
-                    // email:req.body.email,
-                    // password: req.body.password,
-                    // status: req.body.status
-                    studentId: req.body.studentId
-                }, { new: true })
+                        // username: req.body.username, 
+                        // email:req.body.email,
+                        // password: req.body.password,
+                        // status: req.body.status
+                        studentId: req.body.studentId
+                    }, {
+                        new: true
+                    })
                     .then(user => {
                         if (!user) {
                             return res.status(404).send({
@@ -492,21 +509,26 @@ exports.updateStudentIdByEmail = (req, res) => {
     }
 
     // Find User and update it with the request body
-    User.find({ studentId: req.body.studentId })
+    User.find({
+            studentId: req.body.studentId
+        })
         .then(u => {
             if (u.length) {
                 return res.status(404).send({
                     message: "This student Id already exist " + req.body.studentId
                 });
-            }
-            else {
-                User.findOneAndUpdate({ email: req.params.email }, {
-                    // username: req.body.username, 
-                    // email:req.body.email,
-                    // password: req.body.password,
-                    // status: req.body.status
-                    studentId: req.body.studentId
-                }, { new: true })
+            } else {
+                User.findOneAndUpdate({
+                        email: req.params.email
+                    }, {
+                        // username: req.body.username, 
+                        // email:req.body.email,
+                        // password: req.body.password,
+                        // status: req.body.status
+                        studentId: req.body.studentId
+                    }, {
+                        new: true
+                    })
                     .then(user => {
                         if (!user) {
                             return res.status(404).send({
@@ -526,5 +548,79 @@ exports.updateStudentIdByEmail = (req, res) => {
                     });
             }
         })
+
+};
+
+// lock user
+exports.lockUser = (req, res) => {
+    // Validate Request
+    if (!req.params.email) {
+        return res.status(400).send({
+            message: "user content can not be empty"
+        });
+    }
+
+    User.findOneAndUpdate({
+            email: req.params.email
+        }, {
+            status: false
+        }, {
+            new: true
+        })
+        .then(user => {
+            if (!user) {
+                return res.status(404).send({
+                    message: "User not found with email " + req.params.email
+                });
+            }
+            res.send(user);
+        }).catch(err => {
+            if (err.kind === 'ObjectId') {
+                return res.status(404).send({
+                    message: "User not found with email " + req.params.email
+                });
+            }
+            return res.status(500).send({
+                message: "Error updating User with id " + req.params.id
+            });
+        })
+
+
+};
+
+// unlock user
+exports.unlockUser = (req, res) => {
+    // Validate Request
+    if (!req.params.email) {
+        return res.status(400).send({
+            message: "user content can not be empty"
+        });
+    }
+
+    User.findOneAndUpdate({
+            email: req.params.email
+        }, {
+            status: true
+        }, {
+            new: true
+        })
+        .then(user => {
+            if (!user) {
+                return res.status(404).send({
+                    message: "User not found with email " + req.params.email
+                });
+            }
+            res.send(user);
+        }).catch(err => {
+            if (err.kind === 'ObjectId') {
+                return res.status(404).send({
+                    message: "User not found with email " + req.params.email
+                });
+            }
+            return res.status(500).send({
+                message: "Error updating User with id " + req.params.id
+            });
+        })
+
 
 };

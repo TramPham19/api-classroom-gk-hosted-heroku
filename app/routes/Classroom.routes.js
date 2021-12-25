@@ -6,7 +6,7 @@ module.exports = (app) => {
     app.post('/classroom', verifyToken, classroom.create);
 
     // Retrieve all classroom
-    //app.get('/classroom', classroom.findAll);
+    app.get('/classroom', classroom.findAll);
 
     // Retrieve all classroom create by user in verifyToken
     app.get('/classroom', verifyToken, classroom.find);

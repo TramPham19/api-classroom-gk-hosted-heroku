@@ -57,4 +57,10 @@ router.put('/studentId/:id', user.updateStudentId)
 //mapping id student when know email
 router.put('/studentId/email/:email', user.updateStudentIdByEmail)
 
+//lock user
+router.put('/lock/:email', user.lockUser)
+
+//unlock user
+router.put('/unlock/:email', user.unlockUser)
+
 module.exports = router
