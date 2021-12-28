@@ -1,6 +1,7 @@
 const JoinedClass = require('../models/JoinedClass.model.js');
 const UserController = require('../controllers/user.controller');
 const User = require('../models/user.model.js');
+const Classroom = require('../models/Classroom.model')
 
 // Retrieve and return all Classroom from the database.
 exports.findAllbyClassId = (req, res) => {
@@ -56,7 +57,7 @@ exports.findClassJoinByMail = (req, res) => {
                         x.push(joinedClass[i].idClass);
                     }
                     console.log(x)
-                    
+
                     res.send(x);
                 }).catch(err => {
                     res.status(500).send({
@@ -128,7 +129,7 @@ exports.inviteTeacher = (req, res) => {
                     .then(data => {
                         console.log("data");
                         console.log(data);
-                        if (data.length!==0) {
+                        if (data.length !== 0) {
                             return res.status(404).send({
                                 message: "User in class: " + data
                             });
@@ -168,7 +169,7 @@ exports.inviteStudent = (req, res) => {
                     .then(data => {
                         console.log("data");
                         console.log(data);
-                        if (data.length!==0) {
+                        if (data.length !== 0) {
                             return res.status(404).send({
                                 message: "User in class: " + data
                             });
@@ -192,4 +193,48 @@ exports.inviteStudent = (req, res) => {
                     })
             }
         })
+};
+
+exports.getPosition = (req, res) => {
+    User.find({ email: req.params.email })
+        .then(user => {
+            if (!user) {
+                return res.status(404).send({
+                    success: false,
+                    message: "User not found with email " + req.params.email
+                });
+            }
+
+            Classroom.find({
+                _id: req.params.id,
+                owner: req.params.email
+            })
+                .then(data => {
+                    console.log(data)
+                    if (data.length>0)
+                        res.send({message: "owner"});
+                    else {
+                        JoinedClass.find({
+                            idUser: user[0]._id,
+                            idClass: req.params.id,
+                        })
+                            .then(check => {
+                                console.log(check[0].type)
+                                if (check[0].type)
+                                    res.send({message: "coop"});
+                                else
+                                    res.send({message: "student"});
+                            }).catch(err => {
+                                res.status(500).send({
+                                    message: err.message || "Some error occurred while retrieving Joined Class."
+                                });
+                            });
+                    }
+                }).catch(err => {
+                    res.status(500).send({
+                        message: err.message || "Some error occurred while retrieving Joined Class."
+                    });
+                });
+        })
+
 };

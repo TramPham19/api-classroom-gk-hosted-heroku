@@ -84,6 +84,17 @@ Content-Type: application/json
 //61c2157559a4c537ec941a46
 //61c2157559a4c537ec941a41
 
+###
 
+GET  http://localhost:5000/classroom/61b50e2289edf10d300d08d8/getPosition
+Content-Type: application/json
 
+{
+    "email": "nga@gmail.com"
+}
 
+# "email": "phanhan226@gmail.com"
+
+###
+
+GET  http://localhost:5000/classroom/61b19a349b7acf416c7872e2/nga@gmail.com/getPosition

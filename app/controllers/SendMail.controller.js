@@ -25,8 +25,8 @@ exports.sendmailTeacher = (req, res) => {
         port: 587,
         secure: false, // true for 465, false for other ports
         auth: {
-            user: 'pghanit@gmail.com', // generated ethereal user
-            pass: 'PhanGiaHan220918', // generated ethereal password
+            user: process.env.GMAIL_ACCOUNT, // generated ethereal user
+            pass: process.env.PASS_GMAIL, // generated ethereal password
         },
         tls: {
             // do not fail on invalid certs
@@ -72,8 +72,8 @@ exports.sendmailStudent = (req, res) => {
         port: 587,
         secure: false, // true for 465, false for other ports
         auth: {
-            user: 'pghanit@gmail.com', // generated ethereal user
-            pass: 'PhanGiaHan220918', // generated ethereal password
+            user: process.env.GMAIL_ACCOUNT, // generated ethereal user
+            pass: process.env.PASS_GMAIL, // generated ethereal password
         },
         tls: {
             // do not fail on invalid certs
@@ -83,7 +83,7 @@ exports.sendmailStudent = (req, res) => {
 
     // send mail with defined transport object
     let info = transporter.sendMail({
-        from: '"TH CLASSROOM" <pghanit@example.com>', // sender address
+        from: `"TH CLASSROOM" <${process.env.GMAIL_ACCOUNT}>`, // sender address
         to: email, // list of receivers
         subject: "Invitation to co-teach", // Subject line
         text: "Hello world?", // plain text body

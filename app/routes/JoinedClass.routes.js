@@ -7,6 +7,9 @@ module.exports = (app) => {
     app.get('/classroom/:id/allteacher', joinedClass.findAllbyClassIdCoopTeach);
     app.get('/classroom/:id/alluserCount', joinedClass.countAllStuInClass);
 
+    // Find position role in class
+    app.get('/classroom/:id/:email/getPosition', joinedClass.getPosition)
+
     //Find all class usser join 
     app.get('/classroom/:email/joined', joinedClass.findClassJoinByMail);
     app.get('/classroom/:email/teached', joinedClass.findClassCoTeachByMail);
