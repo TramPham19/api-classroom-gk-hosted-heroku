@@ -28,4 +28,7 @@ module.exports = (app) => {
     app.delete('/gradeStudent/:id', gradeStudent.delete);
     // app.delete('/gradeStudent/:id/deleteAll', gradeStudent.deleteAll);
 
+    //ONLY STUDENT USE
+    app.get('/gradeStudent/viewGrade/:StudentId/:idGrade', gradeStudent.StudentViewGrade);
+
 }

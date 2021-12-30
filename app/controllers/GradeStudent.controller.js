@@ -3,13 +3,13 @@ const GradeConstructor = require('../models/GradeConstructor.model.js');
 
 exports.findAll = (req, res) => {
     GradeStudent.find()
-    .then(grade => {
-        res.send(grade);
-    }).catch(err => {
-        res.status(500).send({
-            message: err.message || "Some error occurred while retrieving Grade of student."
+        .then(grade => {
+            res.send(grade);
+        }).catch(err => {
+            res.status(500).send({
+                message: err.message || "Some error occurred while retrieving Grade of student."
+            });
         });
-    });
 };
 
 exports.create = (req, res) => {
@@ -39,13 +39,13 @@ exports.create = (req, res) => {
     });
 
     gradeStudent.save()
-    .then(data => {
-        res.send(data);
-    }).catch(err => {
-        res.status(500).send({
-            message: err.message || "Some error occurred while creating the grade of student."
+        .then(data => {
+            res.send(data);
+        }).catch(err => {
+            res.status(500).send({
+                message: err.message || "Some error occurred while creating the grade of student."
+            });
         });
-    });
 
 };
 
@@ -74,7 +74,8 @@ exports.findByGrade = (req, res) => {
 exports.findByGradeAndStudent = (req, res) => {
     GradeStudent.findOne({
         idGrade: req.body.idGrade,
-        StudentId: req.body.StudentId})
+        StudentId: req.body.StudentId
+    })
         .then(data => {
             if (!data) {
                 return res.status(404).send({
@@ -97,7 +98,8 @@ exports.findByGradeAndStudent = (req, res) => {
 exports.findByGradeAndStudentParams = (req, res) => {
     GradeStudent.findOne({
         idGrade: req.params.idGrade,
-        StudentId: req.params.StudentId})
+        StudentId: req.params.StudentId
+    })
         .then(data => {
             if (!data) {
                 return res.status(404).send({
@@ -158,7 +160,7 @@ exports.findByGradeAndStudentParams = (req, res) => {
 // };
 
 exports.findByStudent = (req, res) => {
-    GradeStudent.find({StudentId: req.params.StudentId})
+    GradeStudent.find({ StudentId: req.params.StudentId })
         .then(data => {
             if (!data) {
                 return res.status(404).send({
@@ -207,11 +209,13 @@ exports.update = (req, res) => {
 exports.updateGrade = (req, res) => {
     GradeStudent.findOneAndUpdate({
         idGrade: req.body.idGrade,
-        StudentId: req.body.StudentId}, {
-            idGrade: req.body.idGrade,
-            StudentId: req.body.StudentId,
-            numberGrade: req.body.numberGrade,
-            status: req.body.status},
+        StudentId: req.body.StudentId
+    }, {
+        idGrade: req.body.idGrade,
+        StudentId: req.body.StudentId,
+        numberGrade: req.body.numberGrade,
+        status: req.body.status
+    },
         { new: true })
         .then(grade => {
             if (!grade) {
@@ -255,6 +259,61 @@ exports.delete = (req, res) => {
             return res.status(500).send({
                 success: false,
                 message: "Could not delete Classroom with id " + req.params.id
+            });
+        });
+};
+
+
+//ONLY STUDENT USE
+exports.StudentViewGrade = (req, res) => {
+    GradeStudent.findOne({
+        idGrade: req.params.idGrade,
+        StudentId: req.params.StudentId
+    })
+        .then(data => {
+            if (!data) {
+                return res.status(404).send({
+                    success: false,
+                    message: "Grade not exist"
+                });
+            } else {
+                GradeConstructor.findOne({
+                    _id: req.params.idGrade,
+                    returnData: true
+                }).then(d => {
+                    if (!d) {
+                        return res.status(404).send({
+                            success: false,
+                            message: "Grade not return"
+                        });
+                    }
+                    res.send({
+                        success: true,
+                        gradeData: data.numberGrade
+                    });
+                }).catch(err => {
+                    if (err.kind === 'ObjectId') {
+                        return res.status(404).send({
+                            success: false,
+                            message: "Grade not exist"
+                        });
+                    }
+                    return res.status(500).send({
+                        success: false,
+                        message: "Grade not exist"
+                    });
+                });
+            }
+        }).catch(err => {
+            if (err.kind === 'ObjectId') {
+                return res.status(404).send({
+                    success: false,
+                    message: "Grade not exist"
+                });
+            }
+            return res.status(500).send({
+                success: false,
+                message: "Grade not exist"
             });
         });
 };
