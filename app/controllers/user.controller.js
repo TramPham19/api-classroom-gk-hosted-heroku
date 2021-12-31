@@ -51,6 +51,7 @@ exports.create = (req, res) => {
                     password: req.body.password,
                     status: req.body.status,
                     picture: req.body.picture,
+                    role: req.body.role,
                 });
                 user.setPassword(req.body.password);
                 // Save User in the database
@@ -61,7 +62,8 @@ exports.create = (req, res) => {
                                 username: user.username,
                                 email: user.email,
                                 password: user.password,
-                                picture: user.picture
+                                picture: user.picture,
+                                role: user.role
                             },
                             process.env.ACCESS_TOKEN_SECRET
                         )
@@ -117,6 +119,7 @@ exports.login = (req, res) => {
                     res.status(200).send({
                         success: true,
                         message: 'User logged in successfully',
+                        isAdmin: user.role,
                         token
                     });
                 } else {

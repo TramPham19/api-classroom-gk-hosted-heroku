@@ -2,7 +2,8 @@ const express = require('express');
 const router = express.Router();
 
 const user = require('../controllers/user.controller.js');
-const verifyToken = require('../middleware/auth')
+const verifyToken = require('../middleware/auth');
+const checkAdmin = require('../middleware/checkAdmin.js');
 const User = require('../models/user.model')
 
 // Create a new User
@@ -16,12 +17,16 @@ router.get('/auth', verifyToken, async (req, res) => {
 		const user = await User.find({email:req.email}).select('-password')
 		if (!user)
 			return res.status(400).json({ success: false, message: 'User not found' })
-		res.json({ success: true, user })
+		if(user[0].role){
+			return res.json({ success: true, user, isAdmin: true })
+		}
+		res.json({ success: true, user, isAdmin:false })
 	} catch (error) {
 		console.log(error)
 		res.status(500).json({ success: false, message: 'Internal server error' })
 	}
 })
+
 
 // login
 router.post('/login', user.login);

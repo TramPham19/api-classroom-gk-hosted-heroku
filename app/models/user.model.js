@@ -7,6 +7,7 @@ const Userschema = mongoose.Schema({
     password:String,
     studentId: String,
     picture: String,
+    role: Boolean,
     status: Boolean,
     salt : String,
 }, {
