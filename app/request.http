@@ -106,3 +106,15 @@ GET  http://localhost:5000/gradeStudent/viewGrade/18120026/61b642f585478718501ed
 
 ###
 GET  http://localhost:5000/gradeStudent/viewGrade/11111111/61b642f585478718501edd00
+
+###
+
+POST http://localhost:5000/gradeReview
+Content-Type: application/json
+
+{
+    "gradeConId": "61b642f585478718501edcfc",
+    "StudentId": "18120026",
+    "gradeNew": "4",
+    "messStu": "Diem em ko cao den the"
+}
