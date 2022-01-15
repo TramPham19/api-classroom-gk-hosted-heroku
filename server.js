@@ -3,7 +3,6 @@ const bodyParser = require('body-parser');
 const cors = require('cors')
 const dotenv = require('dotenv');
 const path = require('path');
-
 const userRouter = require('./app/routes/user.routes.js')
 
 const { OAuth2Client } = require('google-auth-library');
@@ -80,10 +79,33 @@ app.get('*', (req, res) =>
   res.sendFile(path.join(__dirname, '/build/index.html'))
 );
 
-const port = process.env.PORT || 5000
+var server = require("http").Server(app);
 
-// listen for requests
-app.listen(port, () => {
-  console.log("Server is listening on port " + port);
+var io = require("socket.io")(server, {
+  cors: {
+    origin: '*',
+  }
 });
+
+server.listen(5000);
+// io.on("connection",(socket)=>{
+//   io.emit("firstEvent","Helloooooooooooooooooo")
+//   io.emit("Notification","0000000000")
+//   socket.on("sendNotification", ({ senderName, receiverName }) => {
+//     const receiver = getUser(receiverName);
+//     io.to(receiver.socketId).emit("getNotification", {
+//       senderName,
+//     });
+//   });
+//   // socket.on("disconnect",()=>{
+//   //   console.log("someone has left")
+//   // })
+// })
+
+// io.listen(5000)
+// const port = process.env.PORT || 5000
+// listen for requests
+// app.listen(port, () => {
+//   console.log("Server is listening on port " + port);
+// });
 
