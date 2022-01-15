@@ -45,6 +45,7 @@ require('./app/routes/SendMail.routes')(app);
 require('./app/routes/GradeConstructor.routes')(app);
 require('./app/routes/GradeStudent.routes')(app);
 require('./app/routes/StudentList.routes')(app);
+require('./app/routes/GradeReview.routes')(app);
 //==========================
 
 dotenv.config();
