@@ -13,4 +13,11 @@ module.exports = (app) => {
 
     //Get All 
     app.get('/gradeReview', gradeReview.get);
+
+    // Get grade review
+    // //For teacher 
+    app.get('/gradeReview', gradeReview.getByStudentIDClassId);
+
+    // Teacher reponse
+
 }

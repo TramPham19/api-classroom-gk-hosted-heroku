@@ -118,3 +118,23 @@ Content-Type: application/json
     "gradeNew": "4",
     "messStu": "Diem em ko cao den the"
 }
+
+###
+
+GET http://localhost:5000/gradeReview
+Content-Type: application/json
+
+{
+    "idClass": "61b19a349b7acf416c7872e2",
+    "stuId": "11111111"
+}
+
+###
+
+GET http://localhost:5000/gradeReview
+Content-Type: application/json
+
+{
+    "idClass": "",
+    "stuId": "11111111"
+}

@@ -1,11 +1,12 @@
 const mongoose = require('mongoose');
 const ClassroomModel = require('./Classroom.model');
 const GradeStudent = require('./GradeStudent.model');
+const GradeConstructorModel = require('./GradeConstructor.model');
 const Schema = mongoose.Schema;
 
 
 const GradeReviewSchema = new Schema({
-    idGradeCon:{type:Schema.Types.ObjectId, ref: GradeStudent},
+    idGradeCon:{type:Schema.Types.ObjectId, ref: GradeConstructorModel},
     idClass:{type:Schema.Types.ObjectId, ref: ClassroomModel},
     StudentId: String,
     idTeacher: String,
