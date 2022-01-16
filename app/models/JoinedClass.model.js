@@ -11,7 +11,8 @@ const JoinedClassSchema = new Schema({
     hide:Boolean //true: hide, false: un hide
 
 },{
-    collection: 'joinedclass'
+    collection: 'joinedclass',
+    timestamps: true
 });
 
  module.exports = mongoose.model('JoinedClass', JoinedClassSchema);

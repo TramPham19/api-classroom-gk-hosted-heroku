@@ -9,7 +9,8 @@ const GradeConstructorSchema = new Schema({
     percentage: { type: Schema.Types.Number },
     returnData: Boolean
 }, {
-    collection: 'gradeConstructor'
+    collection: 'gradeConstructor',
+    timestamps: true
 });
 
 module.exports = mongoose.model('GradeConstructor', GradeConstructorSchema);

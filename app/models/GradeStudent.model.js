@@ -10,7 +10,8 @@ const GradeStudentSchema = new Schema({
     numberGrade: Number,
     status: Boolean,
 },{
-    collection: 'gradeStudent'
+    collection: 'gradeStudent',
+    timestamps: true
 });
 
  module.exports = mongoose.model('GradeStudent', GradeStudentSchema);

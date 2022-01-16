@@ -9,7 +9,9 @@ const StudentListSchema = new Schema({
     numberGrade: Number
 
 },{
-    collection: 'StudentList'
+    collection: 'StudentList',
+    timestamps: true
+    
 });
 
  module.exports = mongoose.model('StudentList', StudentListSchema);
