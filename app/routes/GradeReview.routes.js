@@ -3,5 +3,11 @@ module.exports = (app) => {
 
     // Create a new Note
     app.post('/gradeReview', gradeReview.create);
-    //app.post('/gradeStudent/addAll', gradeStudent.createAll);
+
+    // Get grade review
+    // //For teacher 
+    app.get('/gradeReview', gradeReview.getByStudentIDClassId);
+
+    // Teacher reponse
+
 }
