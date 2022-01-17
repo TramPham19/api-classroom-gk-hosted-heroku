@@ -1,5 +1,5 @@
 module.exports = (app) => {
-    const classroom = require('../controllers/Classroom.controller.js');
+    //const classroom = require('../controllers/Classroom.controller.js');
     const joinedClass = require('../controllers/JoinedClass.controller');
 
     // Find all user in classroom 
@@ -17,5 +17,9 @@ module.exports = (app) => {
     //join class by link (:id : id class)
     app.post('/:id/invite_teacher', joinedClass.inviteTeacher);
     app.post('/:id/invite_student', joinedClass.inviteStudent);
+
+    //Join class by code({codeClass, mailOwners, idUser})
+    app.post('/joinByCode', joinedClass.joinByCode);
+
 
 }
