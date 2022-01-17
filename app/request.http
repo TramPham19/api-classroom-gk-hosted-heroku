@@ -136,5 +136,22 @@ Content-Type: application/json
 
 ###
 
-GET http://localhost:5000/gradeReview/61b50e2289edf10d300d08d8/all
+GET http://localhost:5000/gradeReview/61b19a349b7acf416c7872e2/all
 Content-Type: application/json
+
+###
+
+GET http://localhost:5000/gradeReview/61e51ac0182ba02058be431b/all
+Content-Type: application/json
+###
+
+PUT http://localhost:5000/gradeReview/review/true
+Content-Type: application/json
+
+{
+    "explanationMessage": "Thầy đã sai thầy xl em",
+    "NewGradeUpdate": 10,
+    "idGradeReview": "61e527edac3f2c202889a193",
+    "idGradeCon": "61e51b0c182ba02058be449c",
+    "StudentId": "11111111"
+}

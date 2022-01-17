@@ -15,10 +15,15 @@ module.exports = (app) => {
     app.get('/gradeReview', gradeReview.get);
 
     // Get grade review
-    // //For teacher 
+    //--All--//Xem tất cả yêu cầu review điểm của mỗi sv
     app.get('/gradeReview', gradeReview.getByStudentIDClassId);
+    //--Teacher--//Xem tất cả yêu cầu review điểm của lớp
     app.get('/gradeReview/:idClass/all', gradeReview.getByClassId);
-
+    
     // Teacher reponse
+    //--Teacher--//Chấp nhận yêu cầu và cập nhật điểm
+    app.put('/gradeReview/review/true', gradeReview.reviewGradeTrue);
+    //--Teacher--//Từ chối yêu cầu
+    app.put('/gradeReview/review/false', gradeReview.reviewGradeFalse);
 
 }

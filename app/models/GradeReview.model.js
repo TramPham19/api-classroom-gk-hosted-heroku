@@ -12,6 +12,7 @@ const GradeReviewSchema = new Schema({
     idTeacher: String,
     messStu: String,
     messTea: String,
+    numberGradeOld: Number,
     numberGradeNew: Number,
     numberGradeNewTea: Number,
     status: Boolean, // Duyệt hay không duyệt 
