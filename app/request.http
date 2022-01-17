@@ -131,10 +131,10 @@ Content-Type: application/json
 
 ###
 
-GET http://localhost:5000/gradeReview
+GET http://localhost:5000/gradeStudent/61b19a349b7acf416c7872e2
 Content-Type: application/json
 
-{
-    "idClass": "",
-    "stuId": "11111111"
-}
+###
+
+GET http://localhost:5000/gradeReview/61b50e2289edf10d300d08d8/all
+Content-Type: application/json

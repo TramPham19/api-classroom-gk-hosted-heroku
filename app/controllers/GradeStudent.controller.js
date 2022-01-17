@@ -12,6 +12,28 @@ exports.findAll = (req, res) => {
         });
 };
 
+exports.findByClass = (req, res) => {
+    GradeStudent.find()
+        .populate("idGrade")
+        .then(grade => {
+            let t = []
+            grade.forEach(element => {  
+                if (element.idGrade.idClass == req.params.ClassId) {
+                    t.push(element)
+                }
+            });
+            res.send({
+                success:true,
+                t
+            });
+        }).catch(err => {
+            res.status(500).send({
+                success: false,
+                message: err.message || "Some error occurred while retrieving Grade of student."
+            });
+        });
+};
+
 exports.create = (req, res) => {
     // Validate request
     if (!req.body.numberGrade) {

@@ -7,6 +7,7 @@ module.exports = (app) => {
     // Get grade review
     // //For teacher 
     app.get('/gradeReview', gradeReview.getByStudentIDClassId);
+    app.get('/gradeReview/:idClass/all', gradeReview.getByClassId);
 
     // Teacher reponse
 

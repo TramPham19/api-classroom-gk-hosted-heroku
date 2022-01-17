@@ -1,57 +1,5 @@
 const GradeConstructor = require('../models/GradeConstructor.model.js');
 
-// Create 
-// exports.createAll = (reqq, res) => {
-//     // Validate request
-//     reqq.forEach(req => {
-//         if (!req.body.name) {
-//             return res.status(400).send({
-//                 message: "Name content can not be empty"
-//             });
-//         }
-//         if (!req.body.percentage) {
-//             return res.status(400).send({
-//                 message: "percentage content can not be empty"
-//             });
-//         }
-//         if (!req.body.idClass) {
-//             return res.status(400).send({
-//                 message: "idClass content can not be empty"
-//             });
-//         }
-
-//         // Create
-//         const gradeConstructor = new GradeConstructor({
-//             idClass: req.body.idClass,
-//             name: req.body.name,
-//             percentage: req.body.percentage
-//         });
-
-//         // Kiem tra phan Tram 
-//         GradeConstructor.find({ idClass: req.body.idClass })
-//             .then(data => {
-//                 let tong = 0;
-//                 for (let i = 0; i < data.length; i++) {
-//                     tong = tong + data[i].percentage;
-//                 }
-//                 if (tong < 10) {
-//                     console.log(tong)
-//                     //Save
-//                     gradeConstructor.save()
-//                         .then(data => {
-//                             res.send(data);
-//                         }).catch(err => {
-//                             res.status(500).send({
-//                                 message: err.message || "Some error occurred while creating the Constructor."
-//                             });
-//                         });
-//                 } else {
-//                     res.send("Vuot qua 10");
-//                 }
-//             })
-//     });
-
-// };
 exports.create = (req, res) => {
     // Validate request
     if (!req.body.name) {
@@ -81,12 +29,6 @@ exports.create = (req, res) => {
     // Kiem tra phan Tram 
     GradeConstructor.find({ idClass: req.body.idClass })
         .then(data => {
-            let tong = 0;
-            for (let i = 0; i < data.length; i++) {
-                tong = tong + data[i].percentage;
-            }
-            if (tong < 10) {
-                console.log(tong)
                 //Save
                 gradeConstructor.save()
                     .then(data => {
@@ -100,9 +42,7 @@ exports.create = (req, res) => {
                             message: err.message || "Some error occurred while creating the Constructor."
                         });
                     });
-            } else {
-                res.send({ success: false, message: "Vuot qua 10" });
-            }
+            
         })
 };
 
@@ -170,27 +110,7 @@ exports.findByName = (req, res) => {
         });
 };
 
-exports.total = (req, res) => {
-    GradeConstructor.find({ idClass: req.params.idClass })
-        .then(data => {
-            let tong = 0;
-            for (let i = 0; i < data.length; i++) {
-                tong = tong + data[i].percentage;
-            }
-            if (tong > 0) {
-                res.send({
-                    success: true,
-                    message: "tong",
-                    tong
-                });
-            }
-        }).catch(err => {
-            res.status(500).send({
-                success: false,
-                message: err.message || "Some error occurred..."
-            });
-        });
-};
+
 
 // Update a Classroom identified by the id in the request
 exports.update = (req, res) => {
@@ -210,17 +130,7 @@ exports.update = (req, res) => {
             //console.log(data)
             GradeConstructor.find({ idClass: data.idClass })
                 .then(data => {
-                    console.log(data)
-                    let tong = 0;
-                    for (let i = 0; i < data.length; i++) {
-                        if (data[i]._id != req.params.id) {
-                            tong = tong + data[i].percentage;
-                        }
-                    }
-                    tong = tong + Number(req.body.percentage)
-                    console.log(tong)
-
-                    if (tong <= 10) {
+                    
                         GradeConstructor.findByIdAndUpdate(req.params.id, {
                             name: req.body.name,
                             percentage: req.body.percentage
@@ -245,13 +155,6 @@ exports.update = (req, res) => {
                                     message: "Error updating Classroom with id " + req.params.id
                                 });
                             });
-                    }
-                    else {
-                        res.send({
-                            success: false,
-                            message: "vuot qua 10"
-                        });
-                    }
                 }).catch(err => {
                     res.status(500).send({
                         message: err.message || "Some error occurred..."
@@ -267,12 +170,6 @@ exports.update = (req, res) => {
 };
 // Update a GradeConstructor identified by the id in the request
 exports.updateReturnColumn = (req, res) => {
-    // if (!req.body.gradeIdCons) {
-    //     return res.status(400).send({
-    //         success: false,
-    //         message: "Id null"
-    //     });
-    // }
     GradeConstructor.findByIdAndUpdate(req.params.id, {
         returnData: true
     }, { new: true })
@@ -338,13 +235,6 @@ exports.updateUnReturnColumn = (req, res) => {
 };
 // Update a Classroom identified by the id in the request
 exports.updateUnReturnAll = (req, res) => {
-    // if (!req.body.idClass) {
-    //     return res.status(400).send({
-    //         success: false,
-    //         message: "Id null"
-    //     });
-    // }
-
     GradeConstructor.updateMany({ "idClass": req.params.idClass }, { "$set": { "returnData": false } })
         .then(data => {
             if (!data) {

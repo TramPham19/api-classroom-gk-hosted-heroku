@@ -7,6 +7,7 @@ module.exports = (app) => {
 
     // // Retrieve all classroom
     app.get('/gradeStudent', gradeStudent.findAll);
+    app.get('/gradeStudent/:ClassId', gradeStudent.findByClass);
 
     // // Find gradeStudent of idClass
     app.get('/gradeStudent/:idGrade', gradeStudent.findByGrade);
@@ -15,8 +16,6 @@ module.exports = (app) => {
     app.get('/gradeStudent/findGrade/find/:idGrade/:StudentId', gradeStudent.findByGradeAndStudentParams);
 
     app.get('/gradeStudent/findGrade/byStudentId/:StudentId', gradeStudent.findByStudent);
-
-    // app.get('/gradeStudent/:idClass/total', gradeStudent.total);
 
     // // Update gradeStudent by Id
     app.put('/gradeStudent/:id', gradeStudent.update);
