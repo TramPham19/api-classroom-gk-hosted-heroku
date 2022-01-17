@@ -1,6 +1,7 @@
 const GradeStudent = require('../models/GradeStudent.model');
 const GradeReview = require('../models/GradeReview.model');
 const GradeConstructorModel = require('../models/GradeConstructor.model');
+const Classroom = require('../models/Classroom.model.js');
 
 exports.create = (req, res) => {
     // Validate request
@@ -14,12 +15,15 @@ exports.create = (req, res) => {
 
     // Create
     const gradeReview = new GradeReview({
-        idGradeCon: req.body.gradeConId,
+        idGradeCon: req.body.gradeConId, 
+        idClass: req.body.idClass,
         StudentId: req.body.StudentId,
+        idTeacher: req.body.idTeacher,
         numberGradeNew: req.body.gradeNew,
         numberGradeNewTea: null,
         status: false, //Chưa được sử lý
         pending: true, //Chờ
+        read: false,
         messStu: req.body.messStu,
         messTea: null,
     });
@@ -38,6 +42,74 @@ exports.create = (req, res) => {
         });
 
 };
+
+exports.getAllByClass = (req, res) => {
+    GradeReview.find({
+        idClass : req.params.id
+    })
+    .then(review => {
+        if (!review) {
+            return res.status(404).send({
+                message: "Review not found with Grade contructor " + req.params.idGradeCon
+            });
+        }
+        res.send(review);
+    }).catch(err => {
+        if (err.kind === 'ObjectId') {
+            return res.status(404).send({
+                message: "Review not found with Grade contructor " + req.params.idGradeCon
+            });
+        }
+        return res.status(500).send({
+            message: "Error retrieving Review with Grade contructor " + req.params.idGradeCon
+        });
+    });
+};
+
+exports.getReviewByTeacher = (req, res) => {
+    GradeReview.find({
+        idTeacher : req.params.idTeacher
+    })
+    .then(review => {
+        if (!review) {
+            return res.status(404).send({
+                message: "Review not found with Grade contructor " + req.params.idGradeCon
+            });
+        }
+        res.send(review);
+    }).catch(err => {
+        if (err.kind === 'ObjectId') {
+            return res.status(404).send({
+                message: "Review not found with Grade contructor " + req.params.idGradeCon
+            });
+        }
+        return res.status(500).send({
+            message: "Error retrieving Review with Grade contructor " + req.params.idGradeCon
+        });
+    });
+};
+
+exports.get = (req, res) => {
+    GradeReview.find()
+    .then(review => {
+        if (!review) {
+            return res.status(404).send({
+                message: "Review not found with Grade contructor " + req.params.idGradeCon
+            });
+        }
+        res.send(review);
+    }).catch(err => {
+        if (err.kind === 'ObjectId') {
+            return res.status(404).send({
+                message: "Review not found with Grade contructor " + req.params.idGradeCon
+            });
+        }
+        return res.status(500).send({
+            message: "Error retrieving Review with Grade contructor " + req.params.idGradeCon
+        });
+    });
+};
+
 exports.getByStudentIDClassId = (req, res) => {
     // Validate request
     if (!req.body.stuId || !req.body.idClass) {

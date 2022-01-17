@@ -68,6 +68,27 @@ exports.findByClass = (req, res) => {
         });
 };
 
+
+exports.findByReturnData = (req, res) => {
+    GradeConstructor.find({ returnData: req.params.returnData })
+        .then(data => {
+            if (!data) {
+                return res.status(404).send({
+                    message: "Classroom not create gradeConstructor " + req.params.idClass
+                });
+            }
+            res.send(data);
+        }).catch(err => {
+            if (err.kind === 'ObjectId') {
+                return res.status(404).send({
+                    message: "Classroom not found with id " + req.params.id
+                });
+            }
+            return res.status(500).send({
+                message: "Error retrieving Classroom with id " + req.params.id
+            });
+        });
+};
 exports.findById = (req, res) => {
     GradeConstructor.findById(req.params.id )
         .then(data => {
