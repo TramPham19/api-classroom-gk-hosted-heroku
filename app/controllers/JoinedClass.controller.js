@@ -195,6 +195,62 @@ exports.inviteStudent = (req, res) => {
         })
 };
 
+exports.joinByCode = (req, res) => {
+    // Tìm kiếm sự tồn tại của lớp
+    Classroom.find({
+        _id: req.body.codeClass,
+        owner: req.body.mailOwners
+    })
+        .then(classData => {
+            console.log(classData)
+            if (!classData) {
+                return res.status(404).send({
+                    success: false,
+                    message: "Fail to find class "
+                });
+            }
+            else {
+                //Kiểm tra sv đã join chưa
+                JoinedClass.find({ idClass: req.body.codeClass, idUser: req.body.idUser })
+                    .then(data => {
+                        // console.log("data");
+                        // console.log(data);
+                        if (data.length !== 0) {
+                            return res.status(404).send({
+                                success: false,
+                                message: "User in class"
+                            });
+                        }
+                        else {
+                            const joinedNew = new JoinedClass({
+                                idClass: req.body.codeClass,
+                                idUser: req.body.idUser,
+                                type: false, //type false stu
+                                hide: false
+                            });
+                            joinedNew.save()
+                                .then(data => {
+                                    res.send({
+                                        success: true,
+                                        data
+                                    });
+                                }).catch(err => {
+                                    res.status(500).send({
+                                        success: false,
+                                        message: err.message || "Some error occurred while joinning the Classroom."
+                                    });
+                                });
+                        }
+                    })
+            }
+        }).catch(err => {
+            res.status(500).send({
+                success: false,
+                message: "Fail when find class."
+            });
+        });
+};
+
 exports.getPosition = (req, res) => {
     User.find({ email: req.params.email })
         .then(user => {
@@ -211,8 +267,8 @@ exports.getPosition = (req, res) => {
             })
                 .then(data => {
                     console.log(data)
-                    if (data.length>0)
-                        res.send({message: "owner"});
+                    if (data.length > 0)
+                        res.send({ message: "owner" });
                     else {
                         JoinedClass.find({
                             idUser: user[0]._id,
@@ -221,9 +277,9 @@ exports.getPosition = (req, res) => {
                             .then(check => {
                                 console.log(check[0].type)
                                 if (check[0].type)
-                                    res.send({message: "coop"});
+                                    res.send({ message: "coop" });
                                 else
-                                    res.send({message: "student"});
+                                    res.send({ message: "student" });
                             }).catch(err => {
                                 res.status(500).send({
                                     message: err.message || "Some error occurred while retrieving Joined Class."
