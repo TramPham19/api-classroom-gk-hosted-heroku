@@ -8,4 +8,5 @@ module.exports = (app) => {
     // app.get('/classroom/:id/alluser', joinedClass.findAllbyClassId);
      app.post('/send_mail_teacher', sendmail.sendmailTeacher);
      app.post('/send_mail_student', sendmail.sendmailStudent);
+     app.post('/send_mail_account_activation', sendmail.sendmailActivation)
 }

@@ -1,7 +1,8 @@
 const User = require('../models/user.model');
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
-
+const Str = require('@supercharge/strings')
+const random = Str.random() 
 // Create and Save a new User
 exports.create = (req, res) => {
     // Validate request
@@ -52,6 +53,7 @@ exports.create = (req, res) => {
                     status: req.body.status,
                     picture: req.body.picture,
                     role: req.body.role,
+                    activation: Str.random(10) 
                 });
                 user.setPassword(req.body.password);
                 // Save User in the database
@@ -63,7 +65,8 @@ exports.create = (req, res) => {
                                 email: user.email,
                                 password: user.password,
                                 picture: user.picture,
-                                role: user.role
+                                role: user.role,
+                                activation: user.activation,
                             },
                             process.env.ACCESS_TOKEN_SECRET
                         )
@@ -350,6 +353,35 @@ exports.updatePasswordCheck = (req, res) => {
         .catch(err => {
             res.status(500).send({
                 message: err.message || "Wrong Password"
+            });
+        });
+};
+
+exports.updateOTP = (req, res) => {
+
+    // Find User and update it with the request body
+    User.findOneAndUpdate({
+            email: req.params.email
+        }, {
+            activation: "",
+        }, {
+            new: true
+        })
+        .then(user => {
+            if (!user) {
+                return res.status(404).send({
+                    message: "User not found with id " + req.params.id
+                });
+            }
+            res.send(user);
+        }).catch(err => {
+            if (err.kind === 'ObjectId') {
+                return res.status(404).send({
+                    message: "User not found with id " + req.params.id
+                });
+            }
+            return res.status(500).send({
+                message: "Error updating User with id " + req.params.id
             });
         });
 };

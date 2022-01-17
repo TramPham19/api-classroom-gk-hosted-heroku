@@ -59,6 +59,8 @@ router.delete('/:id', user.delete);
 //mapping id student
 router.put('/studentId/:id', user.updateStudentId)
 
+router.put('/otp/:email', user.updateOTP)
+
 //mapping id student when know email
 router.put('/studentId/email/:email', user.updateStudentIdByEmail)
 

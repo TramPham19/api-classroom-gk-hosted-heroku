@@ -8,6 +8,7 @@ const Userschema = mongoose.Schema({
     studentId: String,
     picture: String,
     role: Boolean,
+    activation: String,
     status: Boolean,
     salt : String,
 }, {

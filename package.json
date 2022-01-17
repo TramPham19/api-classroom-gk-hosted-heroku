@@ -19,6 +19,7 @@
   "author": "callicoder",
   "license": "MIT",
   "dependencies": {
+    "@supercharge/strings": "^1.24.0",
     "body-parser": "^1.18.3",
     "cors": "^2.8.5",
     "crypto-js": "^4.1.1",
