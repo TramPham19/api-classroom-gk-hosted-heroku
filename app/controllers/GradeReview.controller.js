@@ -121,20 +121,17 @@ exports.getByStudentIDClassId = (req, res) => {
     }
 
     GradeReview.find({
-        StudentId: req.body.stuId
+        StudentId: req.body.stuId,
+        idGradeCon: req.body.idGradeCon
     })
-        .populate("idGradeCon")
         .then(data => {
-            data.forEach(element => {
-                if (element.idGradeCon != null) {
-                    if (element.idGradeCon.idClass === req.body.idClass) {
-                        console.log(element)
-                    }
-                }
+            res.send({
+                success: true,
+                data
             });
-            res.send(data);
         }).catch(err => {
             res.status(500).send({
+                success: false,
                 message: err.message + "Why" || "Some error occurred while retrieving User."
             });
         });
@@ -235,4 +232,31 @@ exports.reviewGradeFalse = (req, res) => {
                 message: err.message || "Some error occurred"
             });
         });
+};
+
+exports.getByStudentID = (req, res) => {
+    // Validate request
+    if (!req.body.stuId || !req.body.idclass) {
+        return res.status(400).send({
+            success: false,
+            message: "Content empty"
+        });
+    }
+
+    GradeReview.find({
+        StudentId: req.body.stuId,
+        idClass: req.body.idclass
+    })
+        .then(data => {
+            res.send({
+                success: true,
+                data
+            });
+        }).catch(err => {
+            res.status(500).send({
+                success: false,
+                message: err.message + "Why" || "Some error occurred while retrieving User."
+            });
+        });
+
 };

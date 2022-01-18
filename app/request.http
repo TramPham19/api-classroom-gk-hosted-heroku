@@ -119,15 +119,7 @@ Content-Type: application/json
     "messStu": "Diem em ko cao den the"
 }
 
-###
 
-GET http://localhost:5000/gradeReview
-Content-Type: application/json
-
-{
-    "idClass": "61b19a349b7acf416c7872e2",
-    "stuId": "11111111"
-}
 
 ###
 
@@ -165,4 +157,14 @@ Content-Type: application/json
     "codeClass": "61a7066290bbcc34808c1dc3",
     "mailOwners": "pham1942000@gmail.com",
     "idUser": "61b50e0e89edf10d300d08d2"
+}
+
+###
+
+GET http://localhost:5000/Student/gradeReview
+Content-Type: application/json
+
+{
+    "idclass": "61e51ac0182ba02058be431b",
+    "stuId": "11111111"
 }

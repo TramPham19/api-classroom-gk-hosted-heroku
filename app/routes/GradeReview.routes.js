@@ -16,7 +16,8 @@ module.exports = (app) => {
 
     // Get grade review
     //--All--//Xem tất cả yêu cầu review điểm của mỗi sv
-    app.get('/gradeReview', gradeReview.getByStudentIDClassId);
+    //app.get('/gradeReview/byStudent', gradeReview.getByStudentIDClassId);
+    app.get('/Student/gradeReview', gradeReview.getByStudentID);
     //--Teacher--//Xem tất cả yêu cầu review điểm của lớp
     app.get('/gradeReview/:idClass/all', gradeReview.getByClassId);
     
