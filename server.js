@@ -80,15 +80,15 @@ app.get('*', (req, res) =>
   res.sendFile(path.join(__dirname, '/build/index.html'))
 );
 
-var server = require("http").Server(app);
+// var server = require("http").Server(app);
 
-var io = require("socket.io")(server, {
-  cors: {
-    origin: '*',
-  }
-});
+// var io = require("socket.io")(server, {
+//   cors: {
+//     origin: '*',
+//   }
+// });
 
-server.listen(5000);
+// server.listen(5000);
 // io.on("connection",(socket)=>{
 //   io.emit("firstEvent","Helloooooooooooooooooo")
 //   io.emit("Notification","0000000000")
@@ -104,9 +104,9 @@ server.listen(5000);
 // })
 
 // io.listen(5000)
-// const port = process.env.PORT || 5000
+const port = process.env.PORT || 5000
 // listen for requests
-// app.listen(port, () => {
-//   console.log("Server is listening on port " + port);
-// });
+app.listen(port, () => {
+  console.log("Server is listening on port " + port);
+});
 
