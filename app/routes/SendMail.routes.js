@@ -9,4 +9,5 @@ module.exports = (app) => {
      app.post('/send_mail_teacher', sendmail.sendmailTeacher);
      app.post('/send_mail_student', sendmail.sendmailStudent);
      app.post('/send_mail_account_activation', sendmail.sendmailActivation)
+     app.post('/send_mail_forgetpass', sendmail.sendmailforget)
 }
