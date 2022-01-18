@@ -8,7 +8,7 @@ exports.sendmailTeacher = (req, res) => {
     const owner = req.body.owner;
     const classname = req.body.classname;
     const idclass = req.body.idclass;
-    const link = "https://dagk-thclassroom-app.herokuapp.com/"+idclass+"/invite_teacher";
+    const link = "https://app-ck-thclassroom.herokuapp.com/"+idclass+"/invite_teacher";
     console.log(link);
 
     const output = `
@@ -55,7 +55,7 @@ exports.sendmailStudent = (req, res) => {
     const owner = req.body.owner;
     const classname = req.body.classname;
     const idclass = req.body.idclass;
-    const link = "https://dagk-thclassroom-app.herokuapp.com/"+idclass+"/invite_student";
+    const link = "https://app-ck-thclassroom.herokuapp.com/"+idclass+"/invite_student";
     console.log(link);
 
     const output = `

@@ -105,7 +105,7 @@ GET  http://localhost:5000/gradeStudent/findGrade/find/61b642f585478718501edcfc/
 GET  http://localhost:5000/gradeStudent/viewGrade/18120026/61b642f585478718501edcfc
 
 ###
-GET  http://localhost:5000/gradeStudent/viewGrade/11111111/61b642f585478718501edd00
+GET  http://localhost:5000/gradeStudent/viewGrade/11111111/61e51b0c182ba02058be449c
 
 ###
 
