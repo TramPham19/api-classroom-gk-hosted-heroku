@@ -108,7 +108,12 @@ exports.login = (req, res) => {
                     success: false,
                     message: "User not found."
                 });
-            } else {
+            }else if(user.activation!='' || user.status==false){
+                return res.status(400).send({
+                    success: false,
+                    message: "User are locked or account isn't unconfirmed."
+                });
+            }else {
                 if (user.validPassword(req.body.password)) {
                     const token = jwt.sign({
                             id: user.id,
