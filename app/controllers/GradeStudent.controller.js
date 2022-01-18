@@ -1,5 +1,6 @@
 const GradeStudent = require('../models/GradeStudent.model');
 const GradeConstructor = require('../models/GradeConstructor.model.js');
+const GradeReviewModel = require('../models/GradeReview.model');
 
 exports.findAll = (req, res) => {
     GradeStudent.find()
@@ -17,13 +18,13 @@ exports.findByClass = (req, res) => {
         .populate("idGrade")
         .then(grade => {
             let t = []
-            grade.forEach(element => {  
+            grade.forEach(element => {
                 if (element.idGrade.idClass == req.params.ClassId) {
                     t.push(element)
                 }
             });
             res.send({
-                success:true,
+                success: true,
                 t
             });
         }).catch(err => {
@@ -291,51 +292,74 @@ exports.StudentViewGrade = (req, res) => {
     GradeStudent.findOne({
         idGrade: req.params.idGrade,
         StudentId: req.params.StudentId
-    })
-        .then(data => {
-            if (!data) {
-                return res.status(404).send({
-                    success: false,
-                    message: "Grade not exist"
-                });
-            } else {
-                GradeConstructor.findOne({
-                    _id: req.params.idGrade,
-                    returnData: true
-                }).then(d => {
-                    if (!d) {
-                        return res.status(404).send({
-                            success: false,
-                            message: "Grade not return"
+    }).then(data => {
+        if (!data) {
+            return res.status(404).send({
+                success: false,
+                message: "Grade not exist"
+            });
+        } else {
+            GradeConstructor.findOne({
+                _id: req.params.idGrade,
+                returnData: true
+            }).then(d => {
+                if (!d) {
+                    return res.status(404).send({
+                        success: false,
+                        message: "Grade not return"
+                    });
+                }
+                GradeReviewModel.find({
+                    StudentId: req.params.StudentId,
+                    idGradeCon: req.params.idGrade
+                }).then(d1 => {
+
+                    if (!d1) {
+                        return res.send({
+                            success: true,
+                            successRview: false,
+                            gradeData: data.numberGrade,
                         });
                     }
                     res.send({
                         success: true,
-                        gradeData: data.numberGrade
+                        successRview: true,
+                        gradeData: data.numberGrade,
+                        messStu: d1[0].messStu,
+                        messTea: d1[0].messTea,
+                        pending: d1[0].pending,
+                        status: d1[0].status
                     });
                 }).catch(err => {
-                    if (err.kind === 'ObjectId') {
-                        return res.status(404).send({
-                            success: false,
-                            message: "Grade not exist"
-                        });
-                    }
-                    return res.status(500).send({
+                    return res.send({
+                        success: true,
+                        successRview: false,
+                        gradeData: data.numberGrade,
+                    });
+                });
+            }).catch(err => {
+                if (err.kind === 'ObjectId') {
+                    return res.status(404).send({
                         success: false,
                         message: "Grade not exist"
                     });
-                });
-            }
-        }).catch(err => {
-            if (err.kind === 'ObjectId') {
-                return res.status(404).send({
+                }
+                return res.status(500).send({
                     success: false,
                     message: "Grade not exist"
                 });
-            }
-            return res.status(500).send({
+            });
+        }
+    }).catch(err => {
+        if (err.kind === 'ObjectId') {
+            return res.status(404).send({
                 success: false,
                 message: "Grade not exist"
             });
+        }
+        return res.status(500).send({
+            success: false,
+            message: "Grade not exist"
         });
+    });
 };
