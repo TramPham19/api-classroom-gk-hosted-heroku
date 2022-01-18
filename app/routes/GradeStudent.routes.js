@@ -10,7 +10,7 @@ module.exports = (app) => {
     app.get('/gradeStudent/:ClassId', gradeStudent.findByClass);
 
     // // Find gradeStudent of idClass
-    app.get('/gradeStudent/:idGrade', gradeStudent.findByGrade);
+    app.get('/gradeStudent/:idGrade/grade', gradeStudent.findByGrade);
 
     app.get('/gradeStudent/findGrade/find', gradeStudent.findByGradeAndStudent);
     app.get('/gradeStudent/findGrade/find/:idGrade/:StudentId', gradeStudent.findByGradeAndStudentParams);
